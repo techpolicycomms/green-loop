@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { IconHand, IconMapPin, IconCamera } from "@/components/Icons";
 
 export default function VolunteerPage() {
   const [coords, setCoords] = useState<string>("");
@@ -25,24 +26,82 @@ export default function VolunteerPage() {
     fd.append("file", file);
 
     const res = await fetch("/api/uploads", { method: "POST", body: fd });
-    const data = await res.json();
+    const data = await res.json().catch(() => ({ error: "Unknown error" }));
     setUploadResult(JSON.stringify(data, null, 2));
   };
 
   return (
     <main>
-      <h2>Volunteer Dashboard</h2>
+      <header style={{ marginBottom: 32 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+          <span style={{ color: "var(--color-primary)" }}>
+            <IconHand />
+          </span>
+          <h1 style={{ fontSize: "1.75rem", fontWeight: 700, margin: 0, color: "var(--color-text)" }}>
+            Volunteer Dashboard
+          </h1>
+        </div>
+        <p style={{ color: "var(--color-text-muted)", margin: 0, fontSize: 15 }}>
+          Check in at collection points, capture photos for impact tracking, and contribute to events.
+        </p>
+      </header>
 
-      <section style={{ marginTop: 16, padding: 12, border: "1px solid #ddd", borderRadius: 8 }}>
-        <h3>GPS Location (for collection point check-in)</h3>
-        <button onClick={getLocation} style={{ padding: "8px 12px", borderRadius: 8 }}>
+      <section className="card-elevated" style={{ marginBottom: 24 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+          <span style={{ color: "var(--color-primary)" }}>
+            <IconMapPin />
+          </span>
+          <h2 style={{ fontSize: "1.15rem", fontWeight: 600, margin: 0, color: "var(--color-text)" }}>
+            GPS Location
+          </h2>
+        </div>
+        <p style={{ fontSize: 14, color: "var(--color-text-muted)", marginBottom: 16, lineHeight: 1.5 }}>
+          Share your location when you arrive at a collection point. Used for check-in and route optimization.
+        </p>
+        <button
+          onClick={getLocation}
+          style={{
+            padding: "10px 18px",
+            fontSize: 14,
+            fontWeight: 500,
+            background: "var(--color-primary)",
+            color: "white",
+            border: "none",
+            borderRadius: "var(--radius-sm)",
+            cursor: "pointer",
+            transition: "background var(--transition)"
+          }}
+        >
           Get my location
         </button>
-        <pre style={{ marginTop: 8 }}>{coords}</pre>
+        <pre
+          style={{
+            marginTop: 16,
+            padding: 16,
+            background: "var(--color-bg)",
+            borderRadius: "var(--radius-sm)",
+            fontSize: 13,
+            fontFamily: "var(--font-mono)",
+            color: "var(--color-text-muted)",
+            overflow: "auto"
+          }}
+        >
+          {coords || "—"}
+        </pre>
       </section>
 
-      <section style={{ marginTop: 16, padding: 12, border: "1px solid #ddd", borderRadius: 8 }}>
-        <h3>Photo capture (for lanyard counting CV later)</h3>
+      <section className="card-elevated">
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+          <span style={{ color: "var(--color-primary)" }}>
+            <IconCamera />
+          </span>
+          <h2 style={{ fontSize: "1.15rem", fontWeight: 600, margin: 0, color: "var(--color-text)" }}>
+            Photo capture
+          </h2>
+        </div>
+        <p style={{ fontSize: 14, color: "var(--color-text-muted)", marginBottom: 16, lineHeight: 1.5 }}>
+          Upload photos from collection events. Used for lanyard counting and impact documentation.
+        </p>
         <input
           type="file"
           accept="image/*"
@@ -51,8 +110,25 @@ export default function VolunteerPage() {
             const f = e.target.files?.[0];
             if (f) uploadPhoto(f);
           }}
+          style={{
+            display: "block",
+            marginBottom: 16,
+            fontSize: 14
+          }}
         />
-        <pre style={{ marginTop: 8 }}>{uploadResult}</pre>
+        <pre
+          style={{
+            padding: 16,
+            background: "var(--color-bg)",
+            borderRadius: "var(--radius-sm)",
+            fontSize: 12,
+            fontFamily: "var(--font-mono)",
+            color: "var(--color-text-muted)",
+            overflow: "auto"
+          }}
+        >
+          {uploadResult || "—"}
+        </pre>
       </section>
     </main>
   );

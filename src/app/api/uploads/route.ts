@@ -2,7 +2,12 @@ import { NextResponse } from "next/server";
 import { requireRole } from "@/lib/authz";
 
 export async function POST(req: Request) {
-  await requireRole(["volunteer", "organizer", "admin"]);
+  try {
+    await requireRole(["volunteer", "organizer", "admin"]);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "Unauthorized";
+    return NextResponse.json({ error: msg }, { status: msg === "UNAUTHENTICATED" ? 401 : 403 });
+  }
 
   const form = await req.formData();
   const file = form.get("file");

@@ -1,6 +1,6 @@
-# Idea One (GreenLoop MVP)
+# GreenLoop
 
-This is a pilot-ready MVP:
+Pilot-ready MVP for volunteer and event management:
 - Google/Apple sign-in via Supabase Auth
 - Role-based dashboards (volunteer/organizer/admin)
 - Admin user list
@@ -14,7 +14,7 @@ This is a pilot-ready MVP:
 npm install
 
 2) Configure env
-Copy .env.local.example -> .env.local and fill values from Supabase dashboard.
+Copy `.env.local.example` → `.env.local` and fill values. See `CREDENTIALS.md` for details.
 
 3) Run
 npm run dev
@@ -28,25 +28,21 @@ Add redirect URLs for local and production.
 
 ## Deploy to Vercel (live demo)
 
-1. **Push to GitHub** (if not already):
+**Repo:** [techpolicycomms/green-loop](https://github.com/techpolicycomms/green-loop)
+
+1. **Push to GitHub**:
    ```bash
-   git add .
-   git commit -m "Ready for deployment"
-   git push origin main
+   git push -u origin main
    ```
 
 2. **Deploy via Vercel**:
-   - Go to [vercel.com](https://vercel.com) and sign in with GitHub
-   - Click "Add New Project" → Import your repo
-   - Set root directory to the folder containing `package.json` (project root)
-   - Add environment variables:
-     - `NEXT_PUBLIC_SUPABASE_URL` — from Supabase Dashboard → Settings → API
-     - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — from Supabase Dashboard → Settings → API
+   - Go to [vercel.com](https://vercel.com) → Add New Project → Import `techpolicycomms/green-loop`
+   - Add environment variables (see `.env.local.example` for required vars)
    - Deploy
 
-3. **Configure Supabase Auth**:
+3. **Configure Supabase Auth** (after deployment):
    - Supabase Dashboard → Authentication → URL Configuration
-   - Add your Vercel URL to **Site URL** (e.g. `https://your-app.vercel.app`)
-   - Add to **Redirect URLs**: `https://your-app.vercel.app/auth/callback`
+   - **Site URL:** your Vercel URL (e.g. `https://green-loop.vercel.app`)
+   - **Redirect URLs:** add `https://YOUR_VERCEL_URL/auth/callback`
 
 4. **Optional**: Connect a custom domain in Vercel project settings.

@@ -13,7 +13,7 @@ export async function GET() {
   const supabase = await createServerClient();
   const { data, error } = await supabase.from("events").select("*").order("created_at", { ascending: false });
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
-  return NextResponse.json(data);
+  return NextResponse.json(data ?? []);
 }
 
 export async function POST(req: Request) {
@@ -21,7 +21,12 @@ export async function POST(req: Request) {
   const rl = rateLimit(`events:${ip}`, 20, 60_000);
   if (!rl.ok) return NextResponse.json({ error: "Rate limit" }, { status: 429 });
 
-  await requireRole(["organizer", "admin"]);
+  try {
+    await requireRole(["organizer", "admin"]);
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : "Unauthorized";
+    return NextResponse.json({ error: msg }, { status: msg === "UNAUTHENTICATED" ? 401 : 403 });
+  }
 
   const body = await req.json();
   const parsed = CreateEvent.safeParse(body);

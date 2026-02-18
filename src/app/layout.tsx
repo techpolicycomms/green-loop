@@ -3,16 +3,16 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 
 export const metadata: Metadata = {
-  title: "Idea One",
-  description: "GreenLoop MVP"
+  title: "GreenLoop",
+  description: "GreenLoop MVP - Volunteer & event management"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body style={{ fontFamily: "system-ui, sans-serif" }}>
+      <body>
         <Nav />
-        <div style={{ maxWidth: 1000, margin: "0 auto", padding: 16 }}>{children}</div>
+        <div style={{ maxWidth: 960, margin: "0 auto", padding: "24px 20px 48px" }}>{children}</div>
       </body>
     </html>
   );
