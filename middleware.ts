@@ -1,25 +1,39 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { createServerClient } from "@supabase/ssr";
 import { securityHeaders } from "@/lib/securityHeaders";
 
 const PROTECTED_PREFIXES = ["/admin", "/organizer", "/volunteer"];
 
-export function middleware(req: NextRequest) {
-  const { pathname } = req.nextUrl;
-
-  // Apply security headers to every response
-  const res = NextResponse.next();
+export async function middleware(req: NextRequest) {
+  let res = NextResponse.next({ request: req });
   securityHeaders(res);
 
-  // Minimal route protection (real auth check happens server-side in pages)
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return req.cookies.getAll();
+        },
+        setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            res.cookies.set(name, value, options);
+          });
+        }
+      }
+    }
+  );
+
+  // Refresh session if it exists (keeps auth cookies valid for API routes)
+  await supabase.auth.getUser();
+
+  // Route protection
+  const { pathname } = req.nextUrl;
   const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
   if (!isProtected) return res;
 
-  // If no supabase auth cookies exist, redirect to /login
-  const hasAuthCookie =
-    req.cookies.get("sb-access-token") ||
-    req.cookies.get("sb-refresh-token") ||
-    // Supabase uses project-named cookies too; allow generic check:
-    Array.from(req.cookies.getAll()).some((c) => c.name.includes("sb-"));
+  const hasAuthCookie = Array.from(req.cookies.getAll()).some((c) => c.name.includes("sb-"));
 
   if (!hasAuthCookie) {
     const url = req.nextUrl.clone();

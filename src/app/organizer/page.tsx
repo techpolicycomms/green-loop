@@ -53,7 +53,7 @@ export default function OrganizerPage() {
             <IconCalendar />
           </span>
           <h1 style={{ fontSize: "1.75rem", fontWeight: 700, margin: 0, color: "var(--color-text)" }}>
-            Organizer Dashboard <span style={{ fontSize: "0.6em", fontWeight: 400, color: "var(--color-primary-muted)", marginLeft: 8 }}>· green-loop</span>
+            Organizer Dashboard
           </h1>
         </div>
         <p style={{ color: "var(--color-text-muted)", margin: 0, fontSize: 15, lineHeight: 1.6 }}>

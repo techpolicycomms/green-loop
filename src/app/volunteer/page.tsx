@@ -40,6 +40,7 @@ export default function VolunteerPage() {
       const res = await fetch("/api/check-ins", {
         method: "POST",
         headers: { "content-type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           lat: lastCoords.lat,
           lng: lastCoords.lng,
@@ -61,7 +62,7 @@ export default function VolunteerPage() {
     const fd = new FormData();
     fd.append("file", file);
 
-    const res = await fetch("/api/uploads", { method: "POST", body: fd });
+    const res = await fetch("/api/uploads", { method: "POST", body: fd, credentials: "include" });
     const data = await res.json().catch(() => ({ error: "Unknown error" }));
     if (res.ok && (data as { url?: string }).url) {
       setUploadResult(`✓ Uploaded! URL: ${(data as { url: string }).url}`);
