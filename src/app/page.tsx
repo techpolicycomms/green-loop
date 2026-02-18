@@ -74,19 +74,19 @@ export default function HomePage() {
           href="/volunteer"
           icon={<IconHand />}
           title="Volunteer"
-          description="Check in at collection points with GPS, capture photos for impact tracking, and join events."
+          description="Be the bridge between event lanyard recycling and the processing unit. Check in with GPS, capture photos for lanyard counting, earn karma points, and enjoy free access to events."
         />
         <RoleCard
           href="/organizer"
           icon={<IconCalendar />}
           title="Organizer"
-          description="Create and manage events, set locations, and coordinate volunteer participation."
+          description="Create and manage events, set collection point locations, and coordinate volunteer participation. Event creation, listing, and volunteer coordination."
         />
         <RoleCard
           href="/admin"
           icon={<IconUsers />}
           title="Admin"
-          description="View all users, manage roles, and oversee the platform. Full access to user list."
+          description="Full platform oversight: view all users, change roles, send reminders, and see event participation. Admin user list and event management."
         />
       </section>
 

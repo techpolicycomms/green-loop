@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createServerClient } from "@/lib/supabaseServer";
-import { requireRole } from "@/lib/authz";
+import { requireUser } from "@/lib/authz";
 import { rateLimit } from "@/lib/rateLimit";
 
 const CreateEvent = z.object({
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   if (!rl.ok) return NextResponse.json({ error: "Rate limit" }, { status: 429 });
 
   try {
-    await requireRole(["organizer", "admin"]);
+    await requireUser();
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Unauthorized";
     return NextResponse.json({ error: msg }, { status: msg === "UNAUTHENTICATED" ? 401 : 403 });

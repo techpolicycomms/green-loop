@@ -28,6 +28,8 @@ Add redirect URLs for local and production.
 
 ## Deploy to Vercel (live demo)
 
+**Live:** [idea-one-pi.vercel.app](https://idea-one-pi.vercel.app)
+
 **Repo:** [techpolicycomms/green-loop](https://github.com/techpolicycomms/green-loop)
 
 1. **Push to GitHub**:

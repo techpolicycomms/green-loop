@@ -40,3 +40,17 @@ Click **Save**.
 
 ### 5. Try again
 Refresh http://localhost:3001/login and click **Continue with Google**.
+
+---
+
+## Production (Vercel)
+
+After deploying to Vercel, add your production URL to Supabase:
+
+1. **URL Configuration** → **Redirect URLs**, add:
+   ```
+   https://YOUR_VERCEL_URL/auth/callback
+   ```
+   (e.g. `https://green-loop.vercel.app/auth/callback` or `https://idea-one-pi.vercel.app/auth/callback`)
+
+2. **Site URL** (for production): set to your main Vercel URL

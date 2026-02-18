@@ -1,16 +1,23 @@
 "use client";
 
+import { Suspense } from "react";
 import { createBrowserClient } from "@/lib/supabaseClient";
 import { IconLogIn, IconShield, LineArtCommunity } from "@/components/Icons";
+import { useSearchParams } from "next/navigation";
 
-export default function LoginPage() {
+function LoginContent() {
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
+
   const signIn = async (provider: "google" | "apple") => {
     const supabase = createBrowserClient();
-    const redirectTo = `${typeof window !== "undefined" ? window.location.origin : ""}/auth/callback`;
-    await supabase.auth.signInWithOAuth({
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
+    const redirectTo = `${origin}/auth/callback`;
+    const { error: err } = await supabase.auth.signInWithOAuth({
       provider,
       options: { redirectTo }
     });
+    if (err) console.error("OAuth error:", err);
   };
 
   return (
@@ -28,11 +35,17 @@ export default function LoginPage() {
           <LineArtCommunity />
         </div>
         <h1 style={{ fontSize: "1.75rem", fontWeight: 700, margin: "0 0 8px", color: "var(--color-text)" }}>
-          Welcome to GreenLoop
+          Sign up / Sign in
         </h1>
         <p style={{ fontSize: 15, color: "var(--color-text-muted)", marginBottom: 32, lineHeight: 1.5 }}>
-          Sign in with your existing account to access your dashboard. We use secure OAuth — no passwords to remember.
+          New users: sign up with Google or Apple. Returning users: sign in with the same provider. No passwords needed.
         </p>
+
+        {error && (
+          <p style={{ color: "var(--color-error)", fontSize: 14, marginBottom: 16 }}>
+            Sign-in failed. Check Supabase redirect URLs match this site.
+          </p>
+        )}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <button
@@ -103,5 +116,13 @@ export default function LoginPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<main style={{ padding: 48, textAlign: "center" }}>Loading...</main>}>
+      <LoginContent />
+    </Suspense>
   );
 }
