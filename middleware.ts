@@ -6,7 +6,7 @@ import { securityHeaders } from "@/lib/securityHeaders";
 const PUBLIC_OVERRIDES = ["/admin/login"];
 
 // Paths that require authentication
-const PROTECTED_PREFIXES = ["/admin", "/organizer", "/volunteer", "/onboarding"];
+const PROTECTED_PREFIXES = ["/admin", "/organizer", "/volunteer", "/onboarding", "/profile"];
 
 export async function middleware(req: NextRequest) {
   let res = NextResponse.next({ request: req });
@@ -51,19 +51,48 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Admin routes: enforce admin role (defense in depth on top of API-level checks)
-  if (pathname.startsWith("/admin")) {
+  // Role-sensitive routes: fetch profile once
+  const needsRoleCheck = pathname.startsWith("/admin") ||
+    pathname.startsWith("/organizer") ||
+    pathname.startsWith("/volunteer");
+
+  if (needsRoleCheck) {
     const { data: profile } = await supabase
       .from("profiles")
-      .select("role")
+      .select("role, extra_roles")
       .eq("id", user.id)
       .single();
 
-    if (profile?.role !== "admin") {
-      const url = req.nextUrl.clone();
-      url.pathname = "/admin/login";
-      url.searchParams.set("reason", "access_denied");
-      return NextResponse.redirect(url);
+    const role = profile?.role ?? "";
+    const extraRoles: string[] = (profile?.extra_roles as string[] | null) ?? [];
+    const allRoles = [role, ...extraRoles];
+
+    // Admin routes: only admins allowed
+    if (pathname.startsWith("/admin")) {
+      if (role !== "admin") {
+        const url = req.nextUrl.clone();
+        url.pathname = "/admin/login";
+        url.searchParams.set("reason", "access_denied");
+        return NextResponse.redirect(url);
+      }
+    }
+
+    // Organizer routes: organizer, admin, or user who added organizer to extra_roles
+    if (pathname.startsWith("/organizer")) {
+      if (!allRoles.includes("organizer") && role !== "admin") {
+        const url = req.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
+    }
+
+    // Volunteer routes: volunteer, admin, or user who added volunteer to extra_roles
+    if (pathname.startsWith("/volunteer")) {
+      if (!allRoles.includes("volunteer") && role !== "admin") {
+        const url = req.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
     }
   }
 
