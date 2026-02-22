@@ -316,7 +316,6 @@ function MarketingPage() {
       <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 20, marginBottom: 56 }}>
         <RoleCard href="/volunteer" icon={<IconHand />} title="Volunteer" description="Collect lanyards, grade their condition, GPS check in, earn karma." badge="badge-volunteer" badgeLabel="volunteer" />
         <RoleCard href="/organizer" icon={<IconCalendar />} title="Organiser" description="Register events, manage collection points, receive an impact certificate." badge="badge-organizer" badgeLabel="organizer" />
-        <RoleCard href="/admin" icon={<IconUsers />} title="Admin" description="Platform oversight: users, lanyards, CO\u2082 saved, deposit flow." badge="badge-admin" badgeLabel="admin" />
       </section>
 
       <section style={{ padding: "28px 32px", background: "var(--color-surface)", borderRadius: "var(--radius-lg)", border: "1px solid var(--color-border)" }}>

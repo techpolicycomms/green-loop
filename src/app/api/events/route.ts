@@ -8,7 +8,8 @@ import { sendEventCreated } from "@/lib/mailer";
 const CreateEvent = z.object({
   name: z.string().min(2).max(120),
   location: z.string().min(2).max(120),
-  expected_lanyards: z.number().int().min(1).optional()
+  expected_lanyards: z.number().int().min(1).optional(),
+  event_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional()
 });
 
 export async function GET(req: Request) {
@@ -55,6 +56,7 @@ export async function POST(req: Request) {
     name: parsed.data.name,
     location: parsed.data.location,
     expected_lanyards: parsed.data.expected_lanyards ?? null,
+    event_date: parsed.data.event_date ?? null,
     created_by: userId
   }).select("*").single();
 
