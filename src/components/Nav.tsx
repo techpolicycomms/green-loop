@@ -1,19 +1,26 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { IconLeaf } from "./Icons";
 
 type UserProfile = { email: string; role: string } | null;
 
-const ROLE_COLORS: Record<string, { bg: string; color: string }> = {
-  admin: { bg: "#fee2e2", color: "#b91c1c" },
-  organizer: { bg: "#dbeafe", color: "#1d4ed8" },
-  volunteer: { bg: "#dcfce7", color: "#15803d" }
+// Role-specific dashboard links shown when signed in
+const ROLE_NAV: Record<string, { href: string; label: string }[]> = {
+  volunteer: [{ href: "/volunteer", label: "My Dashboard" }],
+  organizer: [{ href: "/organizer", label: "My Events" }],
+  admin: [
+    { href: "/volunteer", label: "Volunteer" },
+    { href: "/organizer", label: "Organizer" },
+    { href: "/admin", label: "Admin" }
+  ]
 };
 
 export default function Nav() {
   const [userProfile, setUserProfile] = useState<UserProfile>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     fetch("/api/me")
@@ -29,30 +36,38 @@ export default function Nav() {
       .catch(() => {});
   }, []);
 
-  const roleStyle = userProfile ? (ROLE_COLORS[userProfile.role] ?? ROLE_COLORS.volunteer) : null;
+  const roleLinks = userProfile ? (ROLE_NAV[userProfile.role] ?? []) : [];
+  const roleBadgeClass = userProfile ? `badge badge-${userProfile.role}` : "badge badge-neutral";
 
   return (
     <nav
       style={{
-        padding: "16px 24px",
+        padding: "0 24px",
+        height: 56,
         borderBottom: "1px solid var(--color-border)",
         background: "var(--color-surface)",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
-        flexWrap: "wrap",
-        gap: 16
+        gap: 16,
+        position: "sticky",
+        top: 0,
+        zIndex: 100,
+        boxShadow: "var(--shadow-xs)"
       }}
     >
+      {/* Logo */}
       <Link
         href="/"
         style={{
           display: "flex",
           alignItems: "center",
-          gap: 10,
-          fontWeight: 600,
-          fontSize: "1.15rem",
-          color: "var(--color-text)"
+          gap: 8,
+          fontWeight: 700,
+          fontSize: "1rem",
+          color: "var(--color-text)",
+          textDecoration: "none",
+          flexShrink: 0
         }}
       >
         <span style={{ color: "var(--color-primary)" }}>
@@ -61,28 +76,49 @@ export default function Nav() {
         LémanLoop
       </Link>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-        <NavLink href="/">Home</NavLink>
-        <NavLink href="/volunteer">Volunteer</NavLink>
-        <NavLink href="/organizer">Organizer</NavLink>
-        <NavLink href="/admin">Admin</NavLink>
+      {/* Nav links */}
+      <div style={{ display: "flex", alignItems: "center", gap: 2, flex: 1, marginLeft: 4 }}>
+        <Link href="/" className={`nav-link${pathname === "/" ? " nav-link-active" : ""}`}>
+          Home
+        </Link>
 
-        {userProfile && (
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              marginLeft: 4,
-              padding: "6px 12px",
-              background: "var(--color-bg)",
-              border: "1px solid var(--color-border)",
-              borderRadius: "var(--radius-sm)"
-            }}
-          >
+        {userProfile
+          ? roleLinks.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                className={`nav-link${pathname.startsWith(l.href) ? " nav-link-active" : ""}`}
+              >
+                {l.label}
+              </Link>
+            ))
+          : (
+            <>
+              <Link
+                href="/volunteer"
+                className={`nav-link hide-sm${pathname.startsWith("/volunteer") ? " nav-link-active" : ""}`}
+              >
+                Volunteer
+              </Link>
+              <Link
+                href="/organizer"
+                className={`nav-link hide-sm${pathname.startsWith("/organizer") ? " nav-link-active" : ""}`}
+              >
+                Organizer
+              </Link>
+            </>
+          )
+        }
+      </div>
+
+      {/* User area */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
+        {userProfile ? (
+          <>
             <span
+              className="hide-sm"
               style={{
-                fontSize: 12,
+                fontSize: 13,
                 color: "var(--color-text-muted)",
                 maxWidth: 160,
                 overflow: "hidden",
@@ -92,60 +128,15 @@ export default function Nav() {
             >
               {userProfile.email}
             </span>
-            <span
-              style={{
-                fontSize: 11,
-                fontWeight: 600,
-                padding: "2px 8px",
-                borderRadius: "var(--radius-sm)",
-                background: roleStyle?.bg,
-                color: roleStyle?.color,
-                textTransform: "uppercase",
-                letterSpacing: "0.05em"
-              }}
-            >
-              {userProfile.role}
-            </span>
-          </div>
+            <span className={roleBadgeClass}>{userProfile.role}</span>
+            <form action="/auth/signout" method="post" style={{ display: "inline" }}>
+              <button type="submit" className="btn btn-ghost btn-sm">Sign out</button>
+            </form>
+          </>
+        ) : (
+          <Link href="/login" className="btn btn-primary btn-sm">Sign in</Link>
         )}
-
-        <form action="/auth/signout" method="post" style={{ display: "inline" }}>
-          <button
-            type="submit"
-            style={{
-              marginLeft: 4,
-              padding: "8px 14px",
-              fontSize: 14,
-              color: "var(--color-text-muted)",
-              background: "transparent",
-              border: "1px solid var(--color-border)",
-              borderRadius: "var(--radius-sm)",
-              cursor: "pointer",
-              transition: "all var(--transition)"
-            }}
-          >
-            Sign out
-          </button>
-        </form>
       </div>
     </nav>
-  );
-}
-
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <Link
-      href={href}
-      style={{
-        padding: "8px 12px",
-        fontSize: 14,
-        fontWeight: 500,
-        color: "var(--color-text-muted)",
-        borderRadius: "var(--radius-sm)",
-        transition: "all var(--transition)"
-      }}
-    >
-      {children}
-    </Link>
   );
 }
