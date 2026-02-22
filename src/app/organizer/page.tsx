@@ -41,6 +41,10 @@ export default function OrganizerPage() {
 
   const createEvent = async () => {
     setCreateStatus("");
+    if (location === "Other Geneva venue" && !customLocation.trim()) {
+      setCreateStatus("Please enter a venue name for the custom location.");
+      return;
+    }
     const res = await fetch("/api/events", {
       method: "POST",
       headers: { "content-type": "application/json" },

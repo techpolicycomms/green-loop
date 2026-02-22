@@ -19,6 +19,7 @@ export async function GET(request: Request) {
     return NextResponse.redirect(`${redirectBase}/login?error=auth_failed`);
   }
 
-  const target = next.startsWith("/") ? next : `/${next}`;
+  const ALLOWED_PATHS = ["/volunteer", "/organizer", "/admin", "/"];
+  const target = ALLOWED_PATHS.includes(next) ? next : "/volunteer";
   return NextResponse.redirect(`${redirectBase}${target}`);
 }

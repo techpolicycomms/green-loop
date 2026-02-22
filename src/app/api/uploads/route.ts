@@ -20,7 +20,11 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "File too large (max 5MB)" }, { status: 400 });
     }
 
-    const ext = file.name.split(".").pop() || "jpg";
+    const ALLOWED_EXTENSIONS = ["jpg", "jpeg", "png", "webp", "gif"];
+    const ext = (file.name.split(".").pop() ?? "").toLowerCase();
+    if (!ALLOWED_EXTENSIONS.includes(ext)) {
+      return NextResponse.json({ error: "Invalid file type. Allowed: JPG, PNG, WebP, GIF." }, { status: 400 });
+    }
     const path = `${user.id}/${Date.now()}.${ext}`;
 
     const supabase = await createServerClient();
