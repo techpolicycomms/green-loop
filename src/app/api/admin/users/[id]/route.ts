@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireRole } from "@/lib/authz";
 import { createServerClient } from "@/lib/supabaseServer";
 import { z } from "zod";
+import { sendRoleChanged } from "@/lib/mailer";
 
 const UpdateRoleSchema = z.object({
   role: z.enum(["volunteer", "organizer", "admin"])
@@ -26,6 +27,14 @@ export async function PATCH(
   }
 
   const supabase = await createServerClient();
+
+  // Fetch user's email before updating (for notification)
+  const { data: existing } = await supabase
+    .from("profiles")
+    .select("email, display_name")
+    .eq("id", id)
+    .single();
+
   const { data, error } = await supabase
     .from("profiles")
     .update({ role: parsed.data.role })
@@ -34,5 +43,16 @@ export async function PATCH(
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+
+  // Notify the user about their role change (non-blocking)
+  const email = existing?.email || "";
+  if (email) {
+    sendRoleChanged(email, id, {
+      display_name: existing?.display_name || undefined,
+      email,
+      new_role: parsed.data.role
+    }).catch(console.error);
+  }
+
   return NextResponse.json(data);
 }

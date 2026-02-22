@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { securityHeaders } from "@/lib/securityHeaders";
 
-const PROTECTED_PREFIXES = ["/admin", "/organizer", "/volunteer"];
+const PROTECTED_PREFIXES = ["/admin", "/organizer", "/volunteer", "/onboarding"];
 
 export async function middleware(req: NextRequest) {
   let res = NextResponse.next({ request: req });

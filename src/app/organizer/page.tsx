@@ -34,9 +34,14 @@ export default function OrganizerPage() {
   const estimatedCO2 = Math.round((expectedLanyards * CO2_PER_LANYARD_G) / 1000 * 10) / 10;
 
   const load = async () => {
-    const res = await fetch("/api/events");
-    const data = await res.json().catch(() => []);
-    setEvents(Array.isArray(data) ? data : []);
+    try {
+      const res = await fetch("/api/events", { credentials: "include" });
+      if (!res.ok) { setEvents([]); return; }
+      const data = await res.json().catch(() => []);
+      setEvents(Array.isArray(data) ? data : []);
+    } catch {
+      setEvents([]);
+    }
   };
 
   const createEvent = async () => {
@@ -45,21 +50,31 @@ export default function OrganizerPage() {
       setCreateStatus("Please enter a venue name for the custom location.");
       return;
     }
-    const res = await fetch("/api/events", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ name, location: effectiveLocation })
-    });
-    const data = await res.json();
-    if (res.ok) {
-      setCreateStatus("✓ Event registered — volunteers will now see your collection points");
-      setName("Pilot Event");
-      setLocation("Palexpo, Geneva");
-      setCustomLocation("");
-      setExpectedLanyards(100);
-      await load();
-    } else {
-      setCreateStatus(`Error: ${(data as { error?: string }).error || "Failed"}`);
+    try {
+      const res = await fetch("/api/events", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ name, location: effectiveLocation })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCreateStatus("✓ Event registered — volunteers will now see your collection points");
+        setName("Pilot Event");
+        setLocation("Palexpo, Geneva");
+        setCustomLocation("");
+        setExpectedLanyards(100);
+        await load();
+      } else {
+        const msg = (data as { error?: string }).error || "Failed";
+        setCreateStatus(
+          msg === "UNAUTHENTICATED"
+            ? "Error: You must be signed in. Please sign in and try again."
+            : `Error: ${msg}`
+        );
+      }
+    } catch {
+      setCreateStatus("Error: Network error. Please check your connection and try again.");
     }
   };
 

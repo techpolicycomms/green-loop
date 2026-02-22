@@ -4,6 +4,7 @@ import { requireUser } from "@/lib/authz";
 
 const BUCKET = "photos";
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const ALLOWED_GRADES = ["A", "B", "C"];
 
 export async function POST(req: Request) {
   try {
@@ -11,6 +12,11 @@ export async function POST(req: Request) {
     const form = await req.formData();
     const file = form.get("file");
     const eventId = form.get("event_id") as string | null;
+    // Lanyard grade metadata from volunteer form
+    const grade = (form.get("grade") as string | null)?.toUpperCase();
+    const material = form.get("material") as string | null;
+    const quantity = parseInt((form.get("quantity") as string) ?? "1", 10);
+    const checkInId = form.get("check_in_id") as string | null;
 
     if (!(file instanceof File)) {
       return NextResponse.json({ error: "No file" }, { status: 400 });
@@ -53,6 +59,19 @@ export async function POST(req: Request) {
 
     if (dbError) {
       return NextResponse.json({ error: dbError.message }, { status: 400 });
+    }
+
+    // Save lanyard grade record if grade data is provided (non-fatal if it fails)
+    if (grade && ALLOWED_GRADES.includes(grade)) {
+      await supabase.from("lanyard_grades").insert({
+        user_id: user.id,
+        event_id: eventId || null,
+        photo_id: photoRow.id,
+        check_in_id: checkInId || null,
+        quantity: isNaN(quantity) || quantity < 1 ? 1 : Math.min(quantity, 10000),
+        grade,
+        material: material || null
+      });
     }
 
     const { data: urlData } = supabase.storage.from(BUCKET).getPublicUrl(uploadData.path);

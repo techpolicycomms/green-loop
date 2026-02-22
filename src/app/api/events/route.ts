@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createServerClient } from "@/lib/supabaseServer";
 import { requireUser } from "@/lib/authz";
 import { rateLimit } from "@/lib/rateLimit";
+import { sendEventCreated } from "@/lib/mailer";
 
 const CreateEvent = z.object({
   name: z.string().min(2).max(120),
@@ -21,8 +22,9 @@ export async function POST(req: Request) {
   const rl = rateLimit(`events:${ip}`, 20, 60_000);
   if (!rl.ok) return NextResponse.json({ error: "Rate limit" }, { status: 429 });
 
+  let user;
   try {
-    await requireUser();
+    user = await requireUser();
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Unauthorized";
     return NextResponse.json({ error: msg }, { status: msg === "UNAUTHENTICATED" ? 401 : 403 });
@@ -43,5 +45,23 @@ export async function POST(req: Request) {
   }).select("*").single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+
+  // Fire confirmation email to the organizer (non-blocking)
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("email, display_name")
+    .eq("id", user.id)
+    .single();
+
+  const email = profile?.email || user.email || "";
+  if (email) {
+    sendEventCreated(email, user.id, {
+      display_name: profile?.display_name || undefined,
+      email,
+      event_name: parsed.data.name,
+      event_location: parsed.data.location
+    }).catch(console.error);
+  }
+
   return NextResponse.json(data);
 }
