@@ -1,15 +1,18 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { createBrowserClient } from "@/lib/supabaseClient";
 import { IconLogIn, IconShield, LineArtCommunity } from "@/components/Icons";
 import { useSearchParams } from "next/navigation";
 
 function LoginContent() {
   const searchParams = useSearchParams();
-  const error = searchParams.get("error");
+  const urlError = searchParams.get("error");
+  const [oauthError, setOauthError] = useState<string | null>(null);
+  const error = urlError || oauthError;
 
   const signIn = async (provider: "google" | "apple") => {
+    setOauthError(null);
     const supabase = createBrowserClient();
     const origin = typeof window !== "undefined" ? window.location.origin : "";
     const redirectTo = `${origin}/auth/callback`;
@@ -17,7 +20,7 @@ function LoginContent() {
       provider,
       options: { redirectTo }
     });
-    if (err) console.error("OAuth error:", err);
+    if (err) setOauthError("Could not start sign-in. Please check your connection and try again.");
   };
 
   return (

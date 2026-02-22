@@ -3,8 +3,8 @@ import "./globals.css";
 import Nav from "@/components/Nav";
 
 export const metadata: Metadata = {
-  title: "GreenLoop",
-  description: "GreenLoop MVP - Volunteer & event management"
+  title: "LémanLoop",
+  description: "LémanLoop — Geneva's circular lanyard programme. Reuse, return, reimagine."
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

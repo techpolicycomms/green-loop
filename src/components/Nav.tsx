@@ -31,7 +31,7 @@ export default function Nav() {
         <span style={{ color: "var(--color-primary)" }}>
           <IconLeaf />
         </span>
-        GreenLoop
+        LémanLoop
       </Link>
 
       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
