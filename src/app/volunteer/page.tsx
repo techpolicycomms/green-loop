@@ -22,6 +22,7 @@ const CO2_PER_LANYARD_G = 25; // grams CO2 saved per lanyard diverted from landf
 export default function VolunteerPage() {
   const [coords, setCoords] = useState<string>("");
   const [lastCoords, setLastCoords] = useState<{ lat: number; lng: number; accuracy?: number } | null>(null);
+  const [checkInId, setCheckInId] = useState<string | null>(null);
   const [saveStatus, setSaveStatus] = useState<string>("");
   const [uploadResult, setUploadResult] = useState<string>("");
   const [grade, setGrade] = useState<string>("A");
@@ -73,6 +74,7 @@ export default function VolunteerPage() {
         setSaveStatus(`Error: ${(data as { error?: string }).error || "Failed to save"}`);
         return;
       }
+      setCheckInId((data as { id?: string }).id ?? null);
       setSaveStatus("✓ Check-in saved — lanyards logged to circular loop");
     } catch {
       setSaveStatus("Error: Could not save");
@@ -82,6 +84,10 @@ export default function VolunteerPage() {
   const uploadPhoto = async (file: File) => {
     const fd = new FormData();
     fd.append("file", file);
+    fd.append("grade", grade);
+    fd.append("material", material);
+    fd.append("quantity", String(lanyardCount));
+    if (checkInId) fd.append("check_in_id", checkInId);
 
     const res = await fetch("/api/uploads", { method: "POST", body: fd, credentials: "include" });
     const data = await res.json().catch(() => ({ error: "Unknown error" }));

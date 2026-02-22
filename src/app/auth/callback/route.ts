@@ -28,13 +28,17 @@ export async function GET(request: Request) {
     return NextResponse.redirect(`${redirectBase}/login?error=auth_failed`);
   }
 
-  // Look up the user's role to redirect to the right dashboard
   const { data: userData } = await supabase.auth.getUser();
   const { data: profile } = await supabase
     .from("profiles")
-    .select("role")
+    .select("role, onboarding_complete")
     .eq("id", userData.user?.id ?? "")
     .single();
+
+  // New users who haven't completed the onboarding form → send there first
+  if (!profile?.onboarding_complete) {
+    return NextResponse.redirect(`${redirectBase}/onboarding`);
+  }
 
   const roleTarget = ROLE_DEFAULTS[profile?.role ?? "volunteer"] ?? "/volunteer";
   const target = nextParam && ALLOWED_PATHS.includes(nextParam) ? nextParam : roleTarget;

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createServerClient } from "@/lib/supabaseServer";
 import { requireUser } from "@/lib/authz";
+import { sendCheckInConfirmed } from "@/lib/mailer";
 
 const CheckInSchema = z.object({
   lat: z.number().min(-90).max(90),
@@ -33,6 +34,31 @@ export async function POST(req: Request) {
       .single();
 
     if (error) return NextResponse.json({ error: error.message }, { status: 400 });
+
+    // Fire confirmation email (non-blocking)
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("email, display_name")
+      .eq("id", user.id)
+      .single();
+
+    let eventName: string | undefined;
+    if (parsed.data.event_id) {
+      const { data: ev } = await supabase.from("events").select("name").eq("id", parsed.data.event_id).single();
+      eventName = ev?.name;
+    }
+
+    const email = profile?.email || user.email || "";
+    if (email) {
+      sendCheckInConfirmed(email, user.id, {
+        display_name: profile?.display_name || undefined,
+        email,
+        event_name: eventName,
+        lat: parsed.data.lat,
+        lng: parsed.data.lng
+      }).catch(console.error);
+    }
+
     return NextResponse.json(data);
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Unauthorized";
