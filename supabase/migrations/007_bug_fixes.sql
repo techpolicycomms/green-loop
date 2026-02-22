@@ -201,3 +201,129 @@ begin
     using (auth.uid() = user_id);
   end if;
 end $$;
+
+
+-- ============================================================
+-- PROFILES TABLE: Add extra_roles column if missing (from migration 006)
+-- Fixes admin login: middleware queries "role, extra_roles" on profiles
+-- If extra_roles doesn't exist the query fails silently → role = "" → access denied
+-- ============================================================
+
+alter table public.profiles
+  add column if not exists extra_roles text[] default '{}';
+
+-- ============================================================
+-- RLS POLICIES: profiles table
+-- Needed so the auth callback and middleware can read the user's profile
+-- ============================================================
+
+alter table public.profiles enable row level security;
+
+do $$
+begin
+  -- Allow users to read their own profile
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'profiles'
+    and policyname = 'profiles: users can read own profile'
+  ) then
+    create policy "profiles: users can read own profile"
+    on public.profiles for select
+    to authenticated
+    using (auth.uid() = id);
+  end if;
+
+  -- Allow users to update their own profile
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'profiles'
+    and policyname = 'profiles: users can update own profile'
+  ) then
+    create policy "profiles: users can update own profile"
+    on public.profiles for update
+    to authenticated
+    using (auth.uid() = id);
+  end if;
+
+  -- Allow users to insert their own profile (for new sign-ups)
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'profiles'
+    and policyname = 'profiles: users can insert own profile'
+  ) then
+    create policy "profiles: users can insert own profile"
+    on public.profiles for insert
+    to authenticated
+    with check (auth.uid() = id);
+  end if;
+end $$;
+
+-- ============================================================
+-- EVENT_APPLICATIONS TABLE: Ensure it exists and has proper RLS
+-- Fixes "Could not find the table 'public.event_applications' in the schema cache"
+-- ============================================================
+
+create table if not exists public.event_applications (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  event_id uuid references public.events(id) on delete set null,
+  message text,
+  status text not null default 'pending' check (status in ('pending', 'approved', 'rejected', 'withdrawn')),
+  organizer_reply text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.event_applications enable row level security;
+
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'event_applications'
+    and policyname = 'event_applications: users can insert own'
+  ) then
+    create policy "event_applications: users can insert own"
+    on public.event_applications for insert
+    to authenticated
+    with check (auth.uid() = user_id);
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'event_applications'
+    and policyname = 'event_applications: users can read own'
+  ) then
+    create policy "event_applications: users can read own"
+    on public.event_applications for select
+    to authenticated
+    using (auth.uid() = user_id);
+  end if;
+
+  if not exists (
+    select 1 from pg_policies
+    where schemaname = 'public' and tablename = 'event_applications'
+    and policyname = 'event_applications: users can update own'
+  ) then
+    create policy "event_applications: users can update own"
+    on public.event_applications for update
+    to authenticated
+    using (auth.uid() = user_id);
+  end if;
+end $$;
+
+-- ============================================================
+-- ADMIN ROLE SETUP
+-- Run this separately with your admin email to grant admin access:
+--
+--   UPDATE public.profiles
+--   SET role = 'admin'
+--   WHERE id = (SELECT id FROM auth.users WHERE email = 'YOUR_ADMIN_EMAIL_HERE');
+--
+-- ============================================================
+
+-- ============================================================
+-- RELOAD POSTGREST SCHEMA CACHE
+-- This fixes "table not found in schema cache" errors
+-- ============================================================
+notify pgrst, 'reload schema';
