@@ -395,3 +395,118 @@ a.card-elevated:hover {
   fill: none;
   opacity: 0.6;
 }
+
+/* ── Admin tab navigation ────────────────────────────────────────────── */
+.admin-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 2px solid var(--color-border);
+  margin-bottom: 28px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.admin-tabs::-webkit-scrollbar { display: none; }
+
+.admin-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  cursor: pointer;
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  white-space: nowrap;
+  transition: color var(--transition), border-color var(--transition);
+  font-family: var(--font-sans);
+}
+.admin-tab:hover { color: var(--color-text); }
+.admin-tab-active {
+  color: var(--color-primary) !important;
+  border-bottom-color: var(--color-primary) !important;
+  font-weight: 600 !important;
+}
+
+/* ── Data tables ─────────────────────────────────────────────────────── */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.data-table th {
+  padding: 10px 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid var(--color-border);
+  white-space: nowrap;
+  background: var(--color-surface);
+}
+.data-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  vertical-align: middle;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--color-bg); }
+.data-table .td-muted { color: var(--color-text-muted); font-size: 13px; }
+.data-table .td-mono { font-family: var(--font-mono); font-size: 12px; }
+
+.table-wrap {
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+/* ── Stat cards ──────────────────────────────────────────────────────── */
+.stat-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  box-shadow: var(--shadow-sm);
+}
+.stat-card-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.stat-card-label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+/* ── Grade bar (visual breakdown) ────────────────────────────────────── */
+.grade-bar-wrap {
+  display: flex;
+  height: 10px;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  gap: 2px;
+}
+.grade-bar-a { background: var(--color-success); }
+.grade-bar-b { background: var(--color-warning); }
+.grade-bar-c { background: var(--color-error); }
+
+/* ── Responsive table improvements ──────────────────────────────────── */
+@media (max-width: 640px) {
+  .admin-tab { padding: 8px 12px; font-size: 13px; }
+  .data-table th, .data-table td { padding: 10px 10px; }
+  .stat-card-value { font-size: 1.5rem; }
+  .hide-sm { display: none !important; }
+}
