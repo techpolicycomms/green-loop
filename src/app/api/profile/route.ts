@@ -6,10 +6,13 @@ import { sendWelcomeVolunteer, sendWelcomeOrganizer } from "@/lib/mailer";
 
 const ProfileSchema = z.object({
   role: z.enum(["volunteer", "organizer"]).optional(), // users can't self-assign admin
+  extra_roles: z.array(z.enum(["volunteer", "organizer"])).max(2).optional(),
+  active_mode: z.enum(["volunteer", "organizer"]).nullable().optional(),
   display_name: z.string().min(1).max(100).optional(),
   phone: z.string().max(30).nullable().optional(),
   city: z.string().max(100).nullable().optional(),
   bio: z.string().max(500).nullable().optional(),
+  avatar_url: z.string().max(500).nullable().optional(),
   onboarding_complete: z.boolean().optional(),
   // Volunteer
   availability: z.enum(["weekdays", "weekends", "both"]).nullable().optional(),

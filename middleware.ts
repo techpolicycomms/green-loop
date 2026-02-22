@@ -2,11 +2,22 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { securityHeaders } from "@/lib/securityHeaders";
 
-const PROTECTED_PREFIXES = ["/admin", "/organizer", "/volunteer", "/onboarding"];
+// Paths that are always public (no auth required) even if they start with a protected prefix
+const PUBLIC_OVERRIDES = ["/admin/login"];
+
+// Paths that require authentication
+const PROTECTED_PREFIXES = ["/admin", "/organizer", "/volunteer", "/onboarding", "/profile"];
 
 export async function middleware(req: NextRequest) {
   let res = NextResponse.next({ request: req });
   securityHeaders(res);
+
+  const { pathname } = req.nextUrl;
+
+  // Allow public override paths through without any auth check
+  if (PUBLIC_OVERRIDES.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
+    return res;
+  }
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -25,20 +36,64 @@ export async function middleware(req: NextRequest) {
     }
   );
 
-  // Refresh session if it exists (keeps auth cookies valid for API routes)
-  await supabase.auth.getUser();
+  // Refresh session (keeps auth cookies valid)
+  const { data: { user } } = await supabase.auth.getUser();
 
-  // Route protection
-  const { pathname } = req.nextUrl;
+  // Check if this path needs protection
   const isProtected = PROTECTED_PREFIXES.some((p) => pathname.startsWith(p));
   if (!isProtected) return res;
 
-  const hasAuthCookie = Array.from(req.cookies.getAll()).some((c) => c.name.includes("sb-"));
-
-  if (!hasAuthCookie) {
+  // No user session — redirect to appropriate login page
+  if (!user) {
     const url = req.nextUrl.clone();
-    url.pathname = "/login";
+    url.pathname = pathname.startsWith("/admin") ? "/admin/login" : "/login";
+    url.searchParams.delete("reason");
     return NextResponse.redirect(url);
+  }
+
+  // Role-sensitive routes: fetch profile once
+  const needsRoleCheck = pathname.startsWith("/admin") ||
+    pathname.startsWith("/organizer") ||
+    pathname.startsWith("/volunteer");
+
+  if (needsRoleCheck) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role, extra_roles")
+      .eq("id", user.id)
+      .single();
+
+    const role = profile?.role ?? "";
+    const extraRoles: string[] = (profile?.extra_roles as string[] | null) ?? [];
+    const allRoles = [role, ...extraRoles];
+
+    // Admin routes: only admins allowed
+    if (pathname.startsWith("/admin")) {
+      if (role !== "admin") {
+        const url = req.nextUrl.clone();
+        url.pathname = "/admin/login";
+        url.searchParams.set("reason", "access_denied");
+        return NextResponse.redirect(url);
+      }
+    }
+
+    // Organizer routes: organizer, admin, or user who added organizer to extra_roles
+    if (pathname.startsWith("/organizer")) {
+      if (!allRoles.includes("organizer") && role !== "admin") {
+        const url = req.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
+    }
+
+    // Volunteer routes: volunteer, admin, or user who added volunteer to extra_roles
+    if (pathname.startsWith("/volunteer")) {
+      if (!allRoles.includes("volunteer") && role !== "admin") {
+        const url = req.nextUrl.clone();
+        url.pathname = "/";
+        return NextResponse.redirect(url);
+      }
+    }
   }
 
   return res;

@@ -12,9 +12,7 @@ const ALLOWED_PATHS = ["/volunteer", "/organizer", "/admin", "/"];
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
-  // Only honour an explicit `next` param; null means use role-based default
   const nextParam = requestUrl.searchParams.get("next");
-
   const redirectBase = `${requestUrl.protocol}//${requestUrl.host}`;
 
   if (!code) {
@@ -35,8 +33,11 @@ export async function GET(request: Request) {
     .eq("id", userData.user?.id ?? "")
     .single();
 
-  // New users who haven't completed the onboarding form → send there first
-  if (!profile?.onboarding_complete) {
+  // Admin users skip onboarding (managed out-of-band by super admins)
+  const isAdmin = profile?.role === "admin";
+
+  // New non-admin users who haven't completed onboarding → send there first
+  if (!isAdmin && !profile?.onboarding_complete) {
     return NextResponse.redirect(`${redirectBase}/onboarding`);
   }
 
