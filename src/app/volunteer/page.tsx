@@ -169,7 +169,7 @@ export default function VolunteerPage() {
     if (!selectedEventId) { setGradeStatus("Select an event first."); return; }
     setGradeStatus("Saving...");
     try {
-      const res = await fetch("/api/uploads", {
+      const res = await fetch("/api/grades", {
         method: "POST",
         headers: { "content-type": "application/json" },
         credentials: "include",

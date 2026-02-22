@@ -86,7 +86,7 @@ export default function OrganizerPage() {
 
   const load = async () => {
     try {
-      const res = await fetch("/api/events", { credentials: "include" });
+      const res = await fetch("/api/events?mine=true", { credentials: "include" });
       if (!res.ok) { setEvents([]); return; }
       const data = await res.json().catch(() => []);
       setEvents(Array.isArray(data) ? data : []);
@@ -169,7 +169,7 @@ export default function OrganizerPage() {
         method: "POST",
         headers: { "content-type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ name, location: effectiveLocation })
+        body: JSON.stringify({ name, location: effectiveLocation, expected_lanyards: expectedLanyards })
       });
       const data = await res.json();
       if (res.ok) {
@@ -313,7 +313,7 @@ export default function OrganizerPage() {
           >
             Register event
           </button>
-          {createStatus && <p style={{ fontSize: 14, color: "var(--color-primary-muted)" }}>{createStatus}</p>}
+          {createStatus && <p style={{ fontSize: 14, color: createStatus.startsWith("Error") ? "#ef4444" : "#10b981" }}>{createStatus}</p>}
         </div>
       </section>
 
