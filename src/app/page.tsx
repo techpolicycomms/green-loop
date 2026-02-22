@@ -38,7 +38,7 @@ const IMPACT_STATS = [
 ];
 
 const HOW_IT_WORKS = [
-  { title: "Organiser registers", text: "Pay a CHF 2/lanyard deposit when creating your event on L\u00e9manLoop." },
+  { title: "Organiser registers", text: "Pay a CHF 2/lanyard deposit when creating your event on LémanLoop." },
   { title: "Volunteers collect", text: "At the venue exit, volunteers collect, grade (A/B/C), and GPS check-in." },
   { title: "Grade and route", text: "Grade A/B lanyards are cleaned and returned to the shared lanyard library." },
   { title: "Recycle Grade C", text: "Damaged or heavily soiled lanyards go to certified upcycling partners." },
@@ -263,7 +263,7 @@ function MarketingPage() {
           Give every lanyard a second life
         </h1>
         <p style={{ fontSize: "1.05rem", color: "var(--color-text-muted)", maxWidth: 520, margin: "0 auto 40px", lineHeight: 1.65 }}>
-          Every Geneva event generates hundreds of lanyards bound for landfill. L\u00e9manLoop closes that loop.
+          Every Geneva event generates hundreds of lanyards bound for landfill. LémanLoop closes that loop.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <Link href="/login" className="btn btn-primary btn-lg"><IconHand /> Volunteer for free</Link>
