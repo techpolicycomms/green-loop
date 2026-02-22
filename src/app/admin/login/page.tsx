@@ -10,9 +10,9 @@ function AdminLoginContent() {
   const searchParams = useSearchParams();
   const reason = searchParams.get("reason");
   const [oauthError, setOauthError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<"google" | "apple" | null>(null);
+  const [loading, setLoading] = useState<"google" | null>(null);
 
-  const signIn = async (provider: "google" | "apple") => {
+  const signIn = async (provider: "google") => {
     setOauthError(null);
     setLoading(provider);
     try {
@@ -140,32 +140,6 @@ function AdminLoginContent() {
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
               {loading === "google" ? "Redirecting..." : "Continue with Google"}
-            </button>
-
-            <button
-              onClick={() => signIn("apple")}
-              disabled={loading !== null}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 14,
-                padding: "12px 18px",
-                fontSize: 15,
-                fontWeight: 600,
-                fontFamily: "var(--font-sans)",
-                background: "var(--color-text)",
-                color: "white",
-                border: "none",
-                borderRadius: "var(--radius-md)",
-                cursor: loading !== null ? "not-allowed" : "pointer",
-                opacity: loading !== null ? 0.6 : 1,
-                width: "100%"
-              }}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
-              </svg>
-              {loading === "apple" ? "Redirecting..." : "Sign in with Apple"}
             </button>
           </div>
 

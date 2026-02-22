@@ -469,15 +469,26 @@ export default function VolunteerPage() {
           <div>
             <label>Condition grade</label>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {LANYARD_GRADES.map((g) => (
-                <label key={g.value} style={{ display: "flex", alignItems: "flex-start", gap: 10, padding: "12px 14px", borderRadius: "var(--radius-sm)", border: `2px solid ${grade === g.value ? "var(--color-primary)" : "var(--color-border)"}`, background: grade === g.value ? "var(--color-accent-soft)" : "var(--color-surface)", cursor: "pointer" }}>
-                  <input type="radio" name="grade" value={g.value} checked={grade === g.value} onChange={() => setGrade(g.value)} style={{ marginTop: 3, flexShrink: 0 }} />
-                  <div>
-                    <div style={{ fontSize: 14, fontWeight: 600, color: "var(--color-text)" }}>{g.label}</div>
-                    <div style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 2 }}>{g.description}</div>
-                  </div>
-                </label>
-              ))}
+              {LANYARD_GRADES.map((g) => {
+                const gradeColors: Record<string, { bg: string; border: string; badge: string; text: string }> = {
+                  A: { bg: "#f0fdf4", border: "#16a34a", badge: "#16a34a", text: "#15803d" },
+                  B: { bg: "#fffbeb", border: "#d97706", badge: "#d97706", text: "#b45309" },
+                  C: { bg: "#fef2f2", border: "#dc2626", badge: "#dc2626", text: "#b91c1c" },
+                };
+                const colors = gradeColors[g.value];
+                const isSelected = grade === g.value;
+                return (
+                  <label key={g.value} style={{ display: "flex", alignItems: "center", gap: 14, padding: "14px 16px", borderRadius: "var(--radius-sm)", border: `2px solid ${isSelected ? colors.border : "var(--color-border)"}`, background: isSelected ? colors.bg : "var(--color-surface)", cursor: "pointer", transition: "all 0.15s ease", boxShadow: isSelected ? `0 0 0 3px ${colors.border}33` : "none" }}>
+                    <input type="radio" name="grade" value={g.value} checked={isSelected} onChange={() => setGrade(g.value)} style={{ display: "none" }} />
+                    <div style={{ width: 40, height: 40, borderRadius: "50%", background: isSelected ? colors.badge : "#e5e7eb", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 800, fontSize: 18, flexShrink: 0, transition: "background 0.15s ease" }}>{g.value}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: 14, fontWeight: 700, color: isSelected ? colors.text : "var(--color-text)" }}>{g.label}</div>
+                      <div style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 3 }}>{g.description}</div>
+                    </div>
+                    {isSelected && <div style={{ color: colors.badge, fontSize: 20, fontWeight: 700 }}>✓</div>}
+                  </label>
+                );
+              })}
             </div>
           </div>
           <div>
