@@ -33,10 +33,10 @@ export default function Footer() {
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
               <span style={{ color: "var(--color-primary)" }}><IconLeaf /></span>
-              <span style={{ fontWeight: 700, fontSize: "1rem", color: "var(--color-text)" }}>LÃ©manLoop</span>
+              <span style={{ fontWeight: 700, fontSize: "1rem", color: "var(--color-text)" }}>LémanLoop</span>
             </div>
             <p style={{ fontSize: 13, color: "var(--color-text-muted)", margin: 0, lineHeight: 1.65, maxWidth: 260 }}>
-              Geneva&apos;s circular lanyard programme â collecting, grading, and returning lanyards to the shared library so nothing goes to landfill.
+              Geneva&apos;s circular lanyard programme — collecting, grading, and returning lanyards to the shared library so nothing goes to landfill.
             </p>
           </div>
 
@@ -83,7 +83,7 @@ export default function Footer() {
           gap: 12
         }}>
           <p style={{ fontSize: 12, color: "var(--color-text-subtle)", margin: 0 }}>
-            Â© {year} LÃ©manLoop Â· Geneva, Switzerland Â· Reg. no. CHE-XXX.XXX.XXX
+            © {year} LémanLoop · Geneva, Switzerland · Reg. no. CHE-XXX.XXX.XXX
           </p>
           <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
             <Link href="/privacy" style={{ fontSize: 12, color: "var(--color-text-subtle)", textDecoration: "none" }}>Privacy policy</Link>
