@@ -7,7 +7,7 @@ const ROLE_DEFAULTS: Record<string, string> = {
   volunteer: "/volunteer"
 };
 
-const ALLOWED_PATHS = ["/volunteer", "/organizer", "/admin", "/"];
+const ALLOWED_PATHS = ["/volunteer", "/organizer", "/admin", "/profile", "/"];
 
 export async function GET(request: Request) {
   const requestUrl = new URL(request.url);

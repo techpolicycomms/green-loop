@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { IconHand, IconMapPin, IconCamera, IconCalendar, IconStar, IconClock, IconCheckCircle, IconActivity, IconLock, IconInfo } from "@/components/Icons";
+import { formatDate, formatEventDate } from "@/lib/formatDate";
 
 type EventItem = { id: string; name: string; location: string; created_at: string; event_date?: string | null };
 type Application = {
@@ -47,17 +48,6 @@ const WORKFLOW_STEPS = [
   { key: "grade",   label: "Grade batch" },
   { key: "photo",   label: "Photograph" }
 ];
-
-function fmtDate(d: string) {
-  try { return new Date(d).toLocaleDateString(undefined, { dateStyle: "medium" }); }
-  catch { return d; }
-}
-
-function fmtEventDate(d: string | null | undefined) {
-  if (!d) return null;
-  try { return new Date(d + "T00:00:00").toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" }); }
-  catch { return d; }
-}
 
 export default function VolunteerPage() {
   const [allEvents, setAllEvents] = useState<EventItem[]>([]);
@@ -374,7 +364,7 @@ export default function VolunteerPage() {
                           <div style={{ fontWeight: 600, fontSize: 14, color: "var(--color-text)" }}>{e.name}</div>
                           <div style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 2 }}>{e.location}</div>
                           {e.event_date && (
-                            <div style={{ fontSize: 12, color: "var(--color-primary-muted)", marginTop: 3, fontWeight: 500 }}>📅 {fmtEventDate(e.event_date)}</div>
+                            <div style={{ fontSize: 12, color: "var(--color-primary-muted)", marginTop: 3, fontWeight: 500 }}>📅 {formatEventDate(e.event_date)}</div>
                           )}
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4, flexShrink: 0 }}>
@@ -431,9 +421,9 @@ export default function VolunteerPage() {
                           <div style={{ fontWeight: 600, fontSize: 14, color: "var(--color-text)" }}>{e.name}</div>
                           <div style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 2 }}>{e.location}</div>
                           {e.event_date ? (
-                            <div style={{ fontSize: 12, color: "var(--color-primary-muted)", marginTop: 3, fontWeight: 500 }}>📅 {fmtEventDate(e.event_date)}</div>
+                            <div style={{ fontSize: 12, color: "var(--color-primary-muted)", marginTop: 3, fontWeight: 500 }}>📅 {formatEventDate(e.event_date)}</div>
                           ) : (
-                            <div style={{ fontSize: 11, color: "var(--color-text-subtle)", marginTop: 2 }}>Registered {fmtDate(e.created_at)}</div>
+                            <div style={{ fontSize: 11, color: "var(--color-text-subtle)", marginTop: 2 }}>Registered {formatDate(e.created_at)}</div>
                           )}
                         </div>
                         <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, flexShrink: 0 }}>
@@ -646,7 +636,7 @@ export default function VolunteerPage() {
                         <div style={{ fontSize: 14, fontWeight: 500 }}>{c.event?.name ?? "No event linked"}</div>
                         {c.event?.location && <div style={{ fontSize: 12, color: "var(--color-text-muted)" }}>{c.event.location}</div>}
                       </div>
-                      <span style={{ fontSize: 12, color: "var(--color-text-muted)", flexShrink: 0 }}>{fmtDate(c.created_at)}</span>
+                      <span style={{ fontSize: 12, color: "var(--color-text-muted)", flexShrink: 0 }}>{formatDate(c.created_at)}</span>
                     </div>
                   ))}
                 </div>
@@ -665,7 +655,7 @@ export default function VolunteerPage() {
                           <td><span className={`badge ${g.grade === "A" ? "badge-success" : g.grade === "B" ? "badge-warning" : "badge-error"}`}>{g.grade}</span></td>
                           <td>{g.quantity}</td>
                           <td className="td-muted">{g.material ?? "—"}</td>
-                          <td className="td-muted">{fmtDate(g.created_at)}</td>
+                          <td className="td-muted">{formatDate(g.created_at)}</td>
                         </tr>
                       ))}
                     </tbody>

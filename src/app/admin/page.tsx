@@ -7,6 +7,7 @@ import {
   IconPencil, IconMail, IconRefresh, IconDownload,
   IconCheckCircle, IconX, IconStar, IconShield
 } from "@/components/Icons";
+import { formatDateOrDash, formatDateTime } from "@/lib/formatDate";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 type Tab = "overview" | "users" | "events" | "data" | "comms" | "settings";
@@ -71,18 +72,6 @@ const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
   { id: "comms",     label: "Communications", icon: <IconBell /> },
   { id: "settings",  label: "Settings",       icon: <IconSettings /> }
 ];
-
-function fmtDate(d?: string | null) {
-  if (!d) return "—";
-  try { return new Date(d).toLocaleDateString(undefined, { dateStyle: "medium" }); }
-  catch { return d; }
-}
-
-function fmtDateTime(d?: string | null) {
-  if (!d) return "—";
-  try { return new Date(d).toLocaleString(undefined, { dateStyle: "short", timeStyle: "short" }); }
-  catch { return d; }
-}
 
 // ── Main component ──────────────────────────────────────────────────────────
 export default function AdminPage() {
@@ -483,7 +472,7 @@ function UsersTab({ users, loading, refresh }: {
                   <span className={`badge badge-${u.role}`}>{u.role}</span>
                 </td>
                 <td className="td-muted">{u.check_in_count ?? 0}</td>
-                <td className="td-muted">{fmtDate(u.created_at)}</td>
+                <td className="td-muted">{formatDateOrDash(u.created_at)}</td>
                 <td>
                   <select
                     value={u.role}
@@ -637,7 +626,7 @@ function EventsTab({ events, loading, refresh, setEvents }: {
                     <span className="td-muted">—</span>
                   )}
                 </td>
-                <td className="td-muted">{fmtDate(e.created_at)}</td>
+                <td className="td-muted">{formatDateOrDash(e.created_at)}</td>
                 <td>
                   {editingId === e.id ? (
                     <div className="row row-sm">
@@ -809,7 +798,7 @@ function DataTab({ checkIns, gradesData, loading, refresh }: {
                     </td>
                     <td>{g.quantity}</td>
                     <td className="td-muted">{g.material ?? "—"}</td>
-                    <td className="td-muted">{fmtDate(g.created_at)}</td>
+                    <td className="td-muted">{formatDateOrDash(g.created_at)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -842,7 +831,7 @@ function DataTab({ checkIns, gradesData, loading, refresh }: {
                   <td className="td-muted">{c.event?.name ?? "—"}</td>
                   <td className="td-mono">{c.lat.toFixed(5)}, {c.lng.toFixed(5)}</td>
                   <td className="td-muted">{c.accuracy_m ? `±${Math.round(c.accuracy_m)}m` : "—"}</td>
-                  <td className="td-muted">{fmtDateTime(c.created_at)}</td>
+                  <td className="td-muted">{formatDateTime(c.created_at)}</td>
                 </tr>
               ))}
             </tbody>
@@ -991,7 +980,7 @@ function CommsTab({ notifications, users, loading, refresh, loadUsers }: {
                   <td>
                     <span className={`badge ${statusBadge(n.status)}`}>{n.status}</span>
                   </td>
-                  <td className="td-muted">{fmtDateTime(n.sent_at ?? n.created_at)}</td>
+                  <td className="td-muted">{formatDateTime(n.sent_at ?? n.created_at)}</td>
                 </tr>
               ))}
             </tbody>

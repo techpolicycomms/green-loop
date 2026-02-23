@@ -44,6 +44,7 @@ export default function Footer() {
           <div>
             <p style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", color: "var(--color-text-subtle)", margin: "0 0 12px" }}>Programme</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <Link href="/about" style={{ fontSize: 13, color: "var(--color-text-muted)", textDecoration: "none" }}>About</Link>
               <Link href="/volunteer" style={{ fontSize: 13, color: "var(--color-text-muted)", textDecoration: "none" }}>Volunteer</Link>
               <Link href="/organizer" style={{ fontSize: 13, color: "var(--color-text-muted)", textDecoration: "none" }}>Organise an event</Link>
               <Link href="/onboarding" style={{ fontSize: 13, color: "var(--color-text-muted)", textDecoration: "none" }}>Get started</Link>

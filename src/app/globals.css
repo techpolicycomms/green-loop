@@ -503,6 +503,19 @@ a.card-elevated:hover {
 .grade-bar-b { background: var(--color-warning); }
 .grade-bar-c { background: var(--color-error); }
 
+/* ── Footer grid (responsive) ────────────────────────────────────── */
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr repeat(3, auto);
+  gap: 24px 48px;
+}
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+}
+
 /* ── Responsive table improvements ──────────────────────────────────── */
 @media (max-width: 640px) {
   .admin-tab { padding: 8px 12px; font-size: 13px; }
