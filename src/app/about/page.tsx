@@ -13,7 +13,7 @@ export default function AboutPage() {
   return (
     <main>
 
-      {/* ââ Hero ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ */}
+      {/* ── Hero ──────────────────────────────────────────────────────── */}
       <section style={{
         padding: "56px 32px 60px",
         background: "linear-gradient(160deg, var(--color-accent-soft) 0%, var(--color-bg) 70%)",
@@ -36,7 +36,7 @@ export default function AboutPage() {
           Building Geneva&apos;s circular economy, together
         </h1>
         <p style={{ fontSize: "1.05rem", color: "var(--color-text-muted)", maxWidth: 560, margin: "0 auto 32px", lineHeight: 1.7 }}>
-          LÃ©manLoop is a not-for-profit, community-owned initiative. We believe sustainability works best
+          LémanLoop is a not-for-profit, community-owned initiative. We believe sustainability works best
           when it&apos;s open, shared, and rooted in the communities it serves.
         </p>
         <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
@@ -50,7 +50,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ââ Founding story ââââââââââââââââââââââââââââââââââââââââââââââ */}
+      {/* ── Founding story ────────────────────────────────────────────── */}
       <section style={{ marginBottom: 64, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }} className="about-two-col">
         <div>
           <p style={{ fontSize: 12, fontWeight: 700, color: "var(--color-primary-muted)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 12 }}>
@@ -69,12 +69,12 @@ export default function AboutPage() {
             No proprietary lock-in. Just a shared commons for a shared problem.
           </p>
           <p style={{ fontSize: 15, color: "var(--color-text-muted)", lineHeight: 1.75, margin: 0 }}>
-            LÃ©manLoop is structured as a not-for-profit association under Swiss law, with community governance
-            baked in from day one. Every contributor â volunteer, organiser, or donor â is a co-owner of the mission.
+            LémanLoop is structured as a not-for-profit association under Swiss law, with community governance
+            baked in from day one. Every contributor — volunteer, organiser, or donor — is a co-owner of the mission.
           </p>
         </div>
 
-        {/* ââ Founder card ââââââââââââââââââââââââââââââââââââââââââââ */}
+        {/* ── Founder card ──────────────────────────────────────────── */}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <div className="card" style={{ padding: "32px 28px", maxWidth: 300, width: "100%", textAlign: "center" }}>
             {/* Photo with initials fallback */}
@@ -111,7 +111,7 @@ export default function AboutPage() {
             </p>
             <p style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.65, margin: "0 0 20px" }}>
               Passionate about Geneva&apos;s role as a hub for international cooperation and sustainable innovation.
-              Building LÃ©manLoop as a community commons â open by design, mission-first.
+              Building LémanLoop as a community commons — open by design, mission-first.
             </p>
             <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
               <a
@@ -125,7 +125,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ââ Our model âââââââââââââââââââââââââââââââââââââââââââââââââââ */}
+      {/* ── Our model ─────────────────────────────────────────────────── */}
       <section style={{ marginBottom: 64 }}>
         <p style={{ fontSize: 12, fontWeight: 700, color: "var(--color-primary-muted)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 12, textAlign: "center" }}>
           Our model
@@ -134,25 +134,25 @@ export default function AboutPage() {
           Open by design. Community by choice.
         </h2>
         <p style={{ fontSize: 14, color: "var(--color-text-muted)", textAlign: "center", margin: "0 auto 36px", maxWidth: 520, lineHeight: 1.65 }}>
-          LÃ©manLoop is built on four commitments that are written into how we govern and operate.
+          LémanLoop is built on four commitments that are written into how we govern and operate.
         </p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 20 }}>
           {[
             {
               title: "Not for profit",
-              text: "We are structured as a Swiss association (Ã  but non lucratif). Any financial surplus is reinvested directly into the programme â expanded coverage, better tooling, or lanyard library growth. No shareholder ever benefits."
+              text: "We are structured as a Swiss association (à but non lucratif). Any financial surplus is reinvested directly into the programme — expanded coverage, better tooling, or lanyard library growth. No shareholder ever benefits."
             },
             {
               title: "Community ownership",
-              text: "Volunteers, organisers, and donors who contribute to LÃ©manLoop are co-owners of the mission. Governance decisions are made openly, with proposals and votes accessible to all members."
+              text: "Volunteers, organisers, and donors who contribute to LémanLoop are co-owners of the mission. Governance decisions are made openly, with proposals and votes accessible to all members."
             },
             {
               title: "Open source",
-              text: "The entire LÃ©manLoop platform â from the grading algorithm to the COâ calculation model â is published under an open licence. Fork it, adapt it, or run your own loop in another city."
+              text: "The entire LémanLoop platform — from the grading algorithm to the CO₂ calculation model — is published under an open licence. Fork it, adapt it, or run your own loop in another city."
             },
             {
               title: "Open science",
-              text: "Our impact data, lanyard grade distributions, COâ savings methodologies, and research findings are published openly. Good environmental data should be a public good, not a proprietary asset."
+              text: "Our impact data, lanyard grade distributions, CO₂ savings methodologies, and research findings are published openly. Good environmental data should be a public good, not a proprietary asset."
             }
           ].map((p) => (
             <div key={p.title} className="card" style={{ padding: "24px 22px" }}>
@@ -166,7 +166,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ââ Donate ââââââââââââââââââââââââââââââââââââââââââââââââââââââ */}
+      {/* ── Donate ────────────────────────────────────────────────────── */}
       <section
         id="donate"
         style={{
@@ -185,7 +185,7 @@ export default function AboutPage() {
           Help the loop keep growing
         </h2>
         <p style={{ fontSize: 15, opacity: 0.88, maxWidth: 520, margin: "0 auto 12px", lineHeight: 1.7 }}>
-          LÃ©manLoop runs on volunteer energy and community generosity. Donations fund lanyard library expansion,
+          LémanLoop runs on volunteer energy and community generosity. Donations fund lanyard library expansion,
           volunteer training, platform development, and our open science data publishing.
         </p>
         <p style={{ fontSize: 13, opacity: 0.72, maxWidth: 440, margin: "0 auto 32px", lineHeight: 1.6 }}>
@@ -231,14 +231,14 @@ export default function AboutPage() {
             transition: "transform 0.18s, box-shadow 0.18s"
           }}
         >
-          â¡ &nbsp;Donate via Stripe
+          ♡ &nbsp;Donate via Stripe
         </a>
         <p style={{ fontSize: 12, opacity: 0.6, marginTop: 16 }}>
-          Secure payment Â· No account required Â· One-time or recurring
+          Secure payment · No account required · One-time or recurring
         </p>
       </section>
 
-      {/* ââ Get involved ââââââââââââââââââââââââââââââââââââââââââââââââ */}
+      {/* ── Get involved ──────────────────────────────────────────────── */}
       <section style={{ marginBottom: 40 }}>
         <h2 style={{ fontSize: "1.2rem", fontWeight: 700, color: "var(--color-text)", letterSpacing: "-0.02em", margin: "0 0 20px" }}>
           Get involved
@@ -265,7 +265,7 @@ export default function AboutPage() {
           />
           <GetInvolvedCard
             title="Contribute code"
-            desc="LÃ©manLoop is open source. Open a PR, report a bug, suggest a feature."
+            desc="LémanLoop is open source. Open a PR, report a bug, suggest a feature."
             href="https://github.com/lemanloop"
             cta="View on GitHub"
             external
@@ -275,7 +275,7 @@ export default function AboutPage() {
 
       {/* Footer nav */}
       <div style={{ paddingTop: 24, borderTop: "1px solid var(--color-border)", display: "flex", gap: 20, flexWrap: "wrap" }}>
-        <Link href="/" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>â Home</Link>
+        <Link href="/" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>← Home</Link>
         <Link href="/privacy" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>Privacy policy</Link>
         <Link href="/terms" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>Terms of use</Link>
       </div>
@@ -297,7 +297,7 @@ function GetInvolvedCard({
     <>
       <h3 style={{ fontSize: "0.9rem", fontWeight: 700, color: "var(--color-text)", margin: "0 0 8px" }}>{title}</h3>
       <p style={{ fontSize: 13, color: "var(--color-text-muted)", margin: "0 0 14px", lineHeight: 1.6 }}>{desc}</p>
-      <span style={{ fontSize: 13, fontWeight: 600, color: "var(--color-primary)" }}>{cta} â</span>
+      <span style={{ fontSize: 13, fontWeight: 600, color: "var(--color-primary)" }}>{cta} →</span>
     </>
   );
   if (external) {
