@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Terms of Use Â· LÃ©manLoop",
-  description: "Terms governing your use of the LÃ©manLoop platform."
+  title: "Terms of Use · LémanLoop",
+  description: "Terms governing your use of the LémanLoop platform."
 };
 
 const LAST_UPDATED = "23 February 2026";
@@ -30,7 +30,7 @@ export default function TermsPage() {
 
           <PolicySection title="1. Acceptance">
             <p>
-              By creating an account or using the LÃ©manLoop platform (&ldquo;Platform&rdquo;), you agree to these Terms of Use. If you do not agree, please do not use the Platform. These terms are governed by Swiss law.
+              By creating an account or using the LémanLoop platform (&ldquo;Platform&rdquo;), you agree to these Terms of Use. If you do not agree, please do not use the Platform. These terms are governed by Swiss law.
             </p>
           </PolicySection>
 
@@ -52,7 +52,7 @@ export default function TermsPage() {
               <li>Provide accurate event information (name, location, date, expected lanyard count).</li>
               <li>Pay the applicable deposit (CHF 2 per expected lanyard) before the event date.</li>
               <li>Ensure a safe collection environment for volunteers at your venue.</li>
-              <li>Notify LÃ©manLoop promptly if an event is cancelled or rescheduled.</li>
+              <li>Notify LémanLoop promptly if an event is cancelled or rescheduled.</li>
             </ul>
           </PolicySection>
 
@@ -64,7 +64,7 @@ export default function TermsPage() {
 
           <PolicySection title="6. Karma points">
             <p>
-              Karma points are awarded to volunteers as a non-monetary recognition of their contribution. They have no cash value, are not transferable, and may not be sold. LÃ©manLoop reserves the right to adjust the karma programme with reasonable notice.
+              Karma points are awarded to volunteers as a non-monetary recognition of their contribution. They have no cash value, are not transferable, and may not be sold. LémanLoop reserves the right to adjust the karma programme with reasonable notice.
             </p>
           </PolicySection>
 
@@ -82,19 +82,19 @@ export default function TermsPage() {
 
           <PolicySection title="8. Intellectual property">
             <p>
-              All content, design, and software on the Platform is owned by or licensed to LÃ©manLoop and protected by Swiss and international copyright law. You may not reproduce, distribute, or create derivative works without prior written consent.
+              All content, design, and software on the Platform is owned by or licensed to LémanLoop and protected by Swiss and international copyright law. You may not reproduce, distribute, or create derivative works without prior written consent.
             </p>
           </PolicySection>
 
           <PolicySection title="9. Disclaimer of warranties">
             <p>
-              The Platform is provided &ldquo;as is&rdquo;. LÃ©manLoop makes no warranties, express or implied, regarding availability, accuracy, or fitness for a particular purpose. We do not guarantee that the Platform will be error-free or uninterrupted.
+              The Platform is provided &ldquo;as is&rdquo;. LémanLoop makes no warranties, express or implied, regarding availability, accuracy, or fitness for a particular purpose. We do not guarantee that the Platform will be error-free or uninterrupted.
             </p>
           </PolicySection>
 
           <PolicySection title="10. Limitation of liability">
             <p>
-              To the fullest extent permitted by Swiss law, LÃ©manLoop shall not be liable for indirect, incidental, or consequential damages arising from your use of (or inability to use) the Platform. Our total liability for direct damages shall not exceed CHF 100 or the amount you paid us in the 12 months prior to the claim, whichever is greater.
+              To the fullest extent permitted by Swiss law, LémanLoop shall not be liable for indirect, incidental, or consequential damages arising from your use of (or inability to use) the Platform. Our total liability for direct damages shall not exceed CHF 100 or the amount you paid us in the 12 months prior to the claim, whichever is greater.
             </p>
           </PolicySection>
 
@@ -112,7 +112,7 @@ export default function TermsPage() {
 
           <PolicySection title="13. Contact">
             <p>
-              LÃ©manLoop Â· Geneva, Switzerland<br />
+              LémanLoop · Geneva, Switzerland<br />
               <a href="mailto:hello@lemanloop.ch">hello@lemanloop.ch</a>
             </p>
           </PolicySection>
@@ -121,7 +121,7 @@ export default function TermsPage() {
 
         {/* Footer nav */}
         <div style={{ marginTop: 48, paddingTop: 24, borderTop: "1px solid var(--color-border)", display: "flex", gap: 20, flexWrap: "wrap" }}>
-          <Link href="/" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>â Home</Link>
+          <Link href="/" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>← Home</Link>
           <Link href="/privacy" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>Privacy policy</Link>
         </div>
 
