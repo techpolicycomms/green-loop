@@ -318,13 +318,44 @@ function MarketingPage() {
         <RoleCard href="/organizer" icon={<IconCalendar />} title="Organiser" description="Register events, manage collection points, receive an impact certificate." badge="badge-organizer" badgeLabel="organizer" />
       </section>
 
-      <section style={{ padding: "28px 32px", background: "var(--color-surface)", borderRadius: "var(--radius-lg)", border: "1px solid var(--color-border)" }}>
+      <section style={{ padding: "28px 32px", background: "var(--color-surface)", borderRadius: "var(--radius-lg)", border: "1px solid var(--color-border)", marginBottom: 40 }}>
         <p style={{ fontSize: 12, fontWeight: 600, color: "var(--color-text-subtle)", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 14 }}>Designed for Geneva&apos;s event ecosystem</p>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {VENUES.map((name) => (
             <span key={name} style={{ padding: "5px 12px", fontSize: 13, fontWeight: 500, borderRadius: "var(--radius-sm)", background: "var(--color-accent-soft)", color: "var(--color-primary)", border: "1px solid var(--color-accent)" }}>{name}</span>
           ))}
         </div>
+      </section>
+
+      {/* Community + donate strip */}
+      <section style={{
+        display: "grid", gridTemplateColumns: "1fr auto", gap: 24, alignItems: "center",
+        padding: "28px 32px",
+        background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 100%)",
+        borderRadius: "var(--radius-lg)", color: "#fff"
+      }}>
+        <div>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.75, margin: "0 0 6px" }}>Community · Not for profit · Open source</p>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, margin: "0 0 6px", color: "#fff" }}>Believe in the loop? Help it grow.</h2>
+          <p style={{ fontSize: 13, opacity: 0.85, margin: 0, lineHeight: 1.6 }}>
+            LémanLoop is free to join and community-owned. Donations fund lanyard library expansion and open science publishing.{" "}
+            <a href="/about" style={{ color: "#fff", textDecoration: "underline", opacity: 0.85 }}>Learn about our mission →</a>
+          </p>
+        </div>
+        <a
+          href="https://buy.stripe.com/fZu8wP2qO7bd0yR6uA6sw00"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "inline-flex", alignItems: "center", gap: 6,
+            padding: "12px 24px", background: "#fff",
+            color: "var(--color-primary-hover)", fontWeight: 700,
+            fontSize: 14, borderRadius: "var(--radius-md)",
+            textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0
+          }}
+        >
+          ♡ &nbsp;Donate
+        </a>
       </section>
     </>
   );

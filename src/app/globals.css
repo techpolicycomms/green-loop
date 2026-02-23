@@ -513,15 +513,25 @@ a.card-elevated:hover {
 
 /* ── Footer ──────────────────────────────────────────────────────────── */
 .footer-grid {
-  grid-template-columns: 1fr repeat(3, auto);
+  grid-template-columns: 1fr repeat(4, auto);
 }
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
 }
 @media (max-width: 400px) {
   .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── About page ──────────────────────────────────────────────────────── */
+.about-two-col {
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 640px) {
+  .about-two-col {
     grid-template-columns: 1fr;
   }
 }
