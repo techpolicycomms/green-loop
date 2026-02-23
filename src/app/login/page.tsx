@@ -184,7 +184,7 @@ function LoginContent() {
                 border: "1px solid var(--color-error-soft)"
               }}
             >
-              Sign-in failed. Check Supabase redirect URLs match this site.
+              Sign-in failed. Please try again, or contact us if the problem continues.
             </div>
           )}
 

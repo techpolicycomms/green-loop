@@ -7,12 +7,26 @@ import { sendEventCreated } from "@/lib/mailer";
 
 const CreateEvent = z.object({
   name: z.string().min(2).max(120),
-  location: z.string().min(2).max(120)
+  location: z.string().min(2).max(120),
+  expected_lanyards: z.number().int().min(1).optional(),
+  event_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional()
 });
 
-export async function GET() {
+export async function GET(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const mine = searchParams.get("mine") === "true";
+
   const supabase = await createServerClient();
-  const { data, error } = await supabase.from("events").select("*").order("created_at", { ascending: false });
+
+  let query = supabase.from("events").select("*").order("created_at", { ascending: false });
+
+  if (mine) {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ error: "UNAUTHENTICATED" }, { status: 401 });
+    query = query.eq("created_by", user.id);
+  }
+
+  const { data, error } = await query;
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
   return NextResponse.json(data ?? []);
 }
@@ -41,6 +55,8 @@ export async function POST(req: Request) {
   const { data, error } = await supabase.from("events").insert({
     name: parsed.data.name,
     location: parsed.data.location,
+    expected_lanyards: parsed.data.expected_lanyards ?? null,
+    event_date: parsed.data.event_date ?? null,
     created_by: userId
   }).select("*").single();
 

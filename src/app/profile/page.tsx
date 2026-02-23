@@ -60,6 +60,7 @@ export default function ProfilePage() {
   // Avatar
   const fileRef = useRef<HTMLInputElement>(null);
   const [avatarStatus, setAvatarStatus] = useState("");
+  const [avatarHovered, setAvatarHovered] = useState(false);
 
   const load = async () => {
     setLoading(true);
@@ -109,13 +110,15 @@ export default function ProfilePage() {
       if (res.ok) {
         setSaveStatus("✓ Profile saved");
         await load();
-        setTimeout(() => setSaveStatus(""), 3000);
+        setTimeout(() => setSaveStatus(""), 4000); // only success auto-dismisses
       } else {
         const data = await res.json().catch(() => ({}));
         setSaveStatus(`Error: ${(data as { error?: string }).error ?? "Failed"}`);
+        // error stays visible until next save attempt
       }
     } catch {
       setSaveStatus("Error: Network error");
+      // error stays visible until next save attempt
     }
   };
 
@@ -126,6 +129,12 @@ export default function ProfilePage() {
 
     // Can't remove your primary role
     if (primaryRole === roleToToggle) return;
+
+    const adding = !current.includes(roleToToggle);
+    const confirmMsg = adding
+      ? `Add the ${roleToToggle} role? You'll gain access to the ${roleToToggle} dashboard.`
+      : `Remove the ${roleToToggle} role? You'll lose access to that dashboard until you add it back.`;
+    if (!window.confirm(confirmMsg)) return;
 
     const newExtras = current.includes(roleToToggle)
       ? current.filter((r) => r !== roleToToggle)
@@ -190,9 +199,11 @@ export default function ProfilePage() {
               background: profile.avatar_url ? "transparent" : "var(--color-accent-soft)",
               border: "3px solid var(--color-primary)",
               display: "flex", alignItems: "center", justifyContent: "center",
-              overflow: "hidden", cursor: "pointer"
+              overflow: "hidden", cursor: "pointer", position: "relative"
             }}
             onClick={() => fileRef.current?.click()}
+            onMouseEnter={() => setAvatarHovered(true)}
+            onMouseLeave={() => setAvatarHovered(false)}
             title="Click to change avatar"
           >
             {profile.avatar_url ? (
@@ -203,6 +214,17 @@ export default function ProfilePage() {
                 {(profile.display_name || profile.email || "?").charAt(0).toUpperCase()}
               </span>
             )}
+            {/* Hover overlay */}
+            <div style={{
+              position: "absolute", inset: 0,
+              background: "rgba(0,0,0,0.38)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              opacity: avatarHovered ? 1 : 0,
+              transition: "opacity 0.18s",
+              pointerEvents: "none"
+            }}>
+              <span style={{ color: "#fff" }}><IconCamera /></span>
+            </div>
             <div style={{ position: "absolute", bottom: 0, right: 0, width: 24, height: 24, background: "var(--color-primary)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid var(--color-bg)" }}>
               <IconCamera />
             </div>
