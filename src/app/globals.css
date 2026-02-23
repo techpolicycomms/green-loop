@@ -511,6 +511,28 @@ a.card-elevated:hover {
   .hide-sm { display: none !important; }
 }
 
+/* ── Footer ──────────────────────────────────────────────────────────── */
+.footer-grid {
+  grid-template-columns: 1fr repeat(3, auto);
+}
+@media (max-width: 640px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 400px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Policy pages ────────────────────────────────────────────────────── */
+.policy-body p { margin: 0 0 12px; }
+.policy-body ul { margin: 0 0 12px; padding-left: 20px; }
+.policy-body li { margin-bottom: 6px; }
+.policy-body a { color: var(--color-primary); }
+.policy-body a:hover { color: var(--color-primary-hover); }
+
 /* ── Accessibility: screen-reader-only utility (#22) ─────────────────── */
 .sr-only {
   position: absolute;
