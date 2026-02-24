@@ -281,13 +281,18 @@ function RoleCard({ role, selected, onSelect, emoji, title, desc, color }: {
     <button
       onClick={onSelect}
       style={{
-        textAlign: "left", padding: "20px 16px", borderRadius: "var(--radius-sm)", cursor: "pointer",
+        textAlign: "left", padding: "20px 16px", borderRadius: "var(--radius-md)", cursor: "pointer",
         border: `2px solid ${selected ? color.border : "var(--color-border)"}`,
         background: selected ? color.bg : "var(--color-surface)",
-        transition: "all var(--transition)", width: "100%"
+        transition: "all var(--transition)", width: "100%",
+        boxShadow: selected ? `0 0 0 3px ${color.border}25` : "none",
+        transform: selected ? "scale(1.02)" : "scale(1)"
       }}
     >
-      <div style={{ fontSize: 28, marginBottom: 10 }}>{emoji}</div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+        <span style={{ fontSize: 28 }}>{emoji}</span>
+        {selected && <span style={{ fontSize: 18, color: color.border }}>&#10003;</span>}
+      </div>
       <div style={{ fontWeight: 700, fontSize: 15, color: selected ? color.text : "var(--color-text)", marginBottom: 6 }}>{title}</div>
       <div style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.5 }}>{desc}</div>
     </button>
