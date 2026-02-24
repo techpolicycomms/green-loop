@@ -1,4 +1,14 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm run build"
+  "buildCommand": "npm run build",
+  "crons": [
+    {
+      "path": "/api/cron/issue-certificates",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/green-ict-audit",
+      "schedule": "15 3 1 * *"
+    }
+  ]
 }
