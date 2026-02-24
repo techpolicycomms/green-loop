@@ -127,11 +127,10 @@ export function welcomeVolunteer(v: NotificationVars): Template {
 
 export function welcomeOrganizer(v: NotificationVars): Template {
   const name = v.display_name || v.email?.split("@")[0] || "there";
-  const org = v.role === "organizer" ? "" : "";
   return {
     subject: "Welcome to LémanLoop — register your first event 🗂️",
     html: wrap(`
-      ${heading(`Welcome, ${name}${org ? ` from ${org}` : ""}!`)}
+      ${heading(`Welcome, ${name}!`)}
       ${para("You're now registered as an <strong>event organiser</strong> on LémanLoop.")}
       ${badge("Organizer", BRAND.organizer, "#1d4ed8")}
       <br/><br/>

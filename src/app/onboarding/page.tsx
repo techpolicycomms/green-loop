@@ -123,7 +123,7 @@ export default function OnboardingPage() {
             <>
               <h2 style={{ margin: "0 0 8px", fontSize: "1.25rem", fontWeight: 700 }}>What brings you to LémanLoop?</h2>
               <p style={{ margin: "0 0 28px", fontSize: 14, color: "var(--color-text-muted)" }}>
-                Choose the role that best describes how you'll participate. Your dashboard and communications will be tailored to you.
+                Choose the role that best describes how you&apos;ll participate. Your dashboard and communications will be tailored to you.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }}>
                 <RoleCard
