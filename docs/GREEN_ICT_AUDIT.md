@@ -26,6 +26,13 @@ This module provides monthly emissions accounting for digital operations, with t
    - archived monthly report in `emission_reports_monthly`
 4. Public transparency page:
    - `/transparency`
+5. Admin management page (measured inputs, offsets, manual trigger):
+   - `/admin/emissions`
+   - APIs:
+     - `GET/POST /api/admin/emissions/activity`
+     - `GET/POST /api/admin/emissions/offsets`
+     - `GET /api/admin/emissions/reports`
+     - `POST /api/admin/emissions/run-audit`
 
 ## Offsets
 
