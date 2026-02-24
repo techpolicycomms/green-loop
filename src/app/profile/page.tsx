@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { IconStar, IconCalendar, IconMapPin, IconCamera, IconSettings, IconCheckCircle } from "@/components/Icons";
+import { formatDate, formatDateLong } from "@/lib/formatDate";
 
 type Profile = {
   id: string;
@@ -21,6 +22,7 @@ type Profile = {
   website?: string | null;
   sustainability_score?: number;
   created_at: string;
+  updated_at?: string | null;
 };
 
 type HistoryStats = {
@@ -183,7 +185,7 @@ export default function ProfilePage() {
   const isOrganizer = allRoles.includes("organizer");
   const isAdmin = profile.role === "admin";
 
-  const joinDate = new Date(profile.created_at).toLocaleDateString(undefined, { dateStyle: "long" });
+  const joinDate = formatDateLong(profile.created_at);
   const approvedEvents = applications.filter((a) => a.status === "approved");
   const pendingEvents = applications.filter((a) => a.status === "pending");
 
@@ -208,7 +210,12 @@ export default function ProfilePage() {
           >
             {profile.avatar_url ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={profile.avatar_url} alt="Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img
+                key={profile.avatar_url + (profile.updated_at ?? "")}
+                src={`${profile.avatar_url}${profile.avatar_url.includes("?") ? "&" : "?"}v=${profile.updated_at ?? Date.now()}`}
+                alt="Avatar"
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
             ) : (
               <span style={{ fontSize: "2rem", fontWeight: 700, color: "var(--color-primary)" }}>
                 {(profile.display_name || profile.email || "?").charAt(0).toUpperCase()}
@@ -508,7 +515,7 @@ export default function ProfilePage() {
                       <div style={{ fontWeight: 600, fontSize: 14, color: "var(--color-text)" }}>{a.event?.name ?? "Unknown event"}</div>
                       {a.event?.location && <div style={{ fontSize: 12, color: "var(--color-text-muted)" }}>{a.event.location}</div>}
                       <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginTop: 2 }}>
-                        Applied {new Date(a.created_at).toLocaleDateString()}
+                        Applied {formatDate(a.created_at)}
                       </div>
                     </div>
                     <span style={{ fontSize: 11, fontWeight: 600, color: s.color, background: s.bg, padding: "4px 12px", borderRadius: 99, border: `1px solid ${s.color}30` }}>

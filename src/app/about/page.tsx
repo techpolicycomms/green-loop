@@ -5,7 +5,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { IconLeaf, IconCheckCircle } from "@/components/Icons";
 
-const STRIPE_DONATE = "https://buy.stripe.com/fZu8wP2qO7bd0yR6uA6sw00";
+const GITHUB_REPO = "https://github.com/techpolicycomms/green-loop";
+const STRIPE_SUPPORT_5 = "https://buy.stripe.com/fZu8wP2qO7bd0yR6uA6sw00";
+const STRIPE_BOARD_MEMBER = "https://buy.stripe.com/5kQ6oH8Pc7bddlD7yE6sw01";
 
 export default function AboutPage() {
   const [photoError, setPhotoError] = useState(false);
@@ -35,17 +37,31 @@ export default function AboutPage() {
         }}>
           Building Geneva&apos;s circular economy, together
         </h1>
-        <p style={{ fontSize: "1.05rem", color: "var(--color-text-muted)", maxWidth: 560, margin: "0 auto 32px", lineHeight: 1.7 }}>
+        <p style={{ fontSize: "1.05rem", color: "var(--color-text-muted)", maxWidth: 560, margin: "0 auto 24px", lineHeight: 1.7 }}>
           LémanLoop is a not-for-profit, community-owned initiative. We believe sustainability works best
           when it&apos;s open, shared, and rooted in the communities it serves.
         </p>
+        <p style={{ fontSize: 14, color: "var(--color-text-muted)", margin: "0 auto 24px" }}>
+          <strong>Open source.</strong> Fork, adapt, or contribute:{" "}
+          <a href={GITHUB_REPO} target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-primary)", fontWeight: 600, textDecoration: "underline" }}>
+            github.com/techpolicycomms/green-loop
+          </a>
+        </p>
         <div style={{ display: "flex", gap: 10, justifyContent: "center", flexWrap: "wrap" }}>
           {["Not for profit", "Community owned", "Open source", "Open science"].map((tag) => (
-            <span key={tag} style={{
-              padding: "6px 16px", fontSize: 13, fontWeight: 600,
-              borderRadius: "var(--radius-full)",
-              background: "var(--color-primary)", color: "#fff"
-            }}>{tag}</span>
+            tag === "Open source" ? (
+              <a key={tag} href={GITHUB_REPO} target="_blank" rel="noopener noreferrer" style={{
+                padding: "6px 16px", fontSize: 13, fontWeight: 600,
+                borderRadius: "var(--radius-full)",
+                background: "var(--color-primary)", color: "#fff", textDecoration: "none"
+              }}>{tag}</a>
+            ) : (
+              <span key={tag} style={{
+                padding: "6px 16px", fontSize: 13, fontWeight: 600,
+                borderRadius: "var(--radius-full)",
+                background: "var(--color-primary)", color: "#fff"
+              }}>{tag}</span>
+            )
           ))}
         </div>
       </section>
@@ -74,10 +90,10 @@ export default function AboutPage() {
           </p>
         </div>
 
-        {/* ── Founder card ──────────────────────────────────────────── */}
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <div className="card" style={{ padding: "32px 28px", maxWidth: 300, width: "100%", textAlign: "center" }}>
-            {/* Photo with initials fallback */}
+        {/* ── Team ───────────────────────────────────────────────────── */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 32, alignItems: "center" }}>
+          {/* Rahul Jha — Founder */}
+          <div className="card" style={{ padding: "32px 28px", maxWidth: 420, width: "100%", textAlign: "center" }}>
             <div style={{
               width: 100, height: 100, borderRadius: "50%",
               margin: "0 auto 16px",
@@ -90,37 +106,55 @@ export default function AboutPage() {
               {!photoError && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src="/team/rahul-jha.jpg"
+                  src="/team/rahul-jha.png"
                   alt="Rahul Jha"
                   style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top", position: "absolute", inset: 0 }}
                   onError={() => setPhotoError(true)}
                 />
               )}
               {photoError && (
-                <span style={{ fontSize: "2rem", fontWeight: 700, color: "var(--color-primary)" }}>
-                  RJ
-                </span>
+                <span style={{ fontSize: "2rem", fontWeight: 700, color: "var(--color-primary)" }}>RJ</span>
               )}
             </div>
+            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--color-text)", margin: "0 0 4px" }}>Rahul Jha</h3>
+            <p style={{ fontSize: 13, color: "var(--color-primary)", fontWeight: 600, margin: "0 0 16px" }}>Founder</p>
+            <p style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.65, margin: "0 0 16px" }}>
+              Programme Manager at UN/ITU Geneva, 13+ years across climate action, digital transformation, and business process engineering. Leads ITU&apos;s Environmental Management System targeting 45% GHG reduction. Built LémanLoop to close the loop on event lanyard waste in Geneva&apos;s dense international conference calendar.
+            </p>
+            <a href="mailto:rahul@lemanloop.ch" style={{ fontSize: 12, color: "var(--color-text-muted)", textDecoration: "none", padding: "5px 14px", border: "1px solid var(--color-border)", borderRadius: "var(--radius-sm)" }}>Get in touch</a>
+          </div>
 
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "var(--color-text)", margin: "0 0 4px" }}>
-              Rahul Jha
-            </h3>
-            <p style={{ fontSize: 13, color: "var(--color-primary)", fontWeight: 600, margin: "0 0 16px" }}>
-              Founder
+          {/* Renate Günther — Advisor */}
+          <div className="card" style={{ padding: "24px 28px", maxWidth: 420, width: "100%", textAlign: "center" }}>
+            <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: "var(--color-text)", margin: "0 0 4px" }}>Renate Günther</h3>
+            <p style={{ fontSize: 13, color: "var(--color-primary)", fontWeight: 600, margin: "0 0 12px" }}>Advisor</p>
+            <p style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.65, margin: 0 }}>
+              Co-Founder & VP of Geneva Macro Labs, a think-and-do tank for the UN SDGs. Background in strategic partnerships and business development at The Economist, POLITICO, Reuters, and Deutsche Börse. Multilingual (DE/EN/FR/IT). Brings fundraising, media, and SDG-alignment expertise.
             </p>
-            <p style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.65, margin: "0 0 20px" }}>
-              Passionate about Geneva&apos;s role as a hub for international cooperation and sustainable innovation.
-              Building LémanLoop as a community commons — open by design, mission-first.
+          </div>
+
+          {/* Dr. Jörn Erbguth — Advisor */}
+          <div className="card" style={{ padding: "24px 28px", maxWidth: 420, width: "100%", textAlign: "center" }}>
+            <h3 style={{ fontSize: "1.05rem", fontWeight: 700, color: "var(--color-text)", margin: "0 0 4px" }}>Dr. Jörn Erbguth</h3>
+            <p style={{ fontSize: 13, color: "var(--color-primary)", fontWeight: 600, margin: "0 0 12px" }}>Advisor</p>
+            <p style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.65, margin: 0 }}>
+              Head of Technology Insights at Geneva Macro Labs. Dual PhD in computer science and law; specialist in blockchain governance, GDPR, smart contracts, and AI. Lecturer at University of Geneva and University of Lucerne. Has presented research at the UN in Geneva.
             </p>
-            <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
-              <a
-                href="mailto:rahul@lemanloop.ch"
-                style={{ fontSize: 12, color: "var(--color-text-muted)", textDecoration: "none", padding: "5px 14px", border: "1px solid var(--color-border)", borderRadius: "var(--radius-sm)" }}
-              >
-                Get in touch
-              </a>
-            </div>
+          </div>
+
+          {/* Supporting institutions */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 16, alignItems: "center", marginTop: 16, paddingTop: 24, borderTop: "1px solid var(--color-border)", width: "100%", maxWidth: 420 }}>
+            <p style={{ fontSize: 11, fontWeight: 700, color: "var(--color-text-muted-2)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 4 }}>Supporting institutions</p>
+            <p style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.6, margin: 0, textAlign: "center" }}>
+              <a href="https://ge-ni.ch" target="_blank" rel="noopener noreferrer" style={{ color: "var(--color-primary)", fontWeight: 600, textDecoration: "none" }}>ge-ni.ch</a> — Geneva Network of Innovators, connecting change-makers across International Geneva to build responsible innovation commons
+            </p>
+            <p style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.6, margin: 0, textAlign: "center" }}>
+              <strong>Geneva Macro Labs</strong> — Innovation hub and DO TANK driving multi-stakeholder solutions for the SDGs
+            </p>
+            <a href="https://ge-ni.ch" target="_blank" rel="noopener noreferrer" style={{ display: "inline-block", textDecoration: "none" }} title="ge-ni Geneva Network of Innovators">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/team/ge-ni-logo.png" alt="ge-ni Geneva Network of Innovators" style={{ height: 36, width: "auto", maxWidth: 140, objectFit: "contain" }} />
+            </a>
           </div>
         </div>
       </section>
@@ -192,49 +226,54 @@ export default function AboutPage() {
           Every franc stays in the programme. As a not-for-profit association we publish our accounts annually.
         </p>
 
-        {/* Donation tiers */}
-        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginBottom: 32 }}>
-          {[
-            { amount: "CHF 10", label: "Cover a volunteer kit" },
-            { amount: "CHF 25", label: "Stock 10 lanyards" },
-            { amount: "CHF 100", label: "Sponsor an event collection" }
-          ].map((t) => (
-            <div key={t.amount} style={{
-              padding: "14px 20px",
-              background: "rgba(255,255,255,0.12)",
-              border: "1px solid rgba(255,255,255,0.25)",
+        {/* Donation CTAs — primary (low barrier) first, then secondary (high commitment) */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 16, marginBottom: 24 }}>
+          <a
+            href={STRIPE_SUPPORT_5}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "16px 36px",
+              background: "#fff",
+              color: "var(--color-primary-hover)",
+              fontWeight: 700,
+              fontSize: 16,
               borderRadius: "var(--radius-md)",
-              minWidth: 130
-            }}>
-              <div style={{ fontSize: "1.2rem", fontWeight: 700, color: "#fff", marginBottom: 4 }}>{t.amount}</div>
-              <div style={{ fontSize: 12, opacity: 0.78 }}>{t.label}</div>
-            </div>
-          ))}
+              textDecoration: "none",
+              boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
+              transition: "transform 0.18s, box-shadow 0.18s"
+            }}
+          >
+            ♡ Support with CHF 5
+          </a>
+          <a
+            href={STRIPE_BOARD_MEMBER}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "12px 24px",
+              background: "rgba(255,255,255,0.15)",
+              color: "#fff",
+              fontWeight: 600,
+              fontSize: 14,
+              borderRadius: "var(--radius-md)",
+              textDecoration: "none",
+              border: "2px solid rgba(255,255,255,0.5)",
+              transition: "background 0.2s, border-color 0.2s"
+            }}
+          >
+            Become a board member (CHF 1,000)
+          </a>
         </div>
 
-        <a
-          href={STRIPE_DONATE}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "14px 32px",
-            background: "#fff",
-            color: "var(--color-primary-hover)",
-            fontWeight: 700,
-            fontSize: 15,
-            borderRadius: "var(--radius-md)",
-            textDecoration: "none",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-            transition: "transform 0.18s, box-shadow 0.18s"
-          }}
-        >
-          ♡ &nbsp;Donate via Stripe
-        </a>
-        <p style={{ fontSize: 12, opacity: 0.6, marginTop: 16 }}>
-          Secure payment · No account required · One-time or recurring
+        <p style={{ fontSize: 12, opacity: 0.6, marginTop: 8 }}>
+          Secure payment via Stripe · No account required · One-time or recurring
         </p>
       </section>
 
@@ -259,14 +298,14 @@ export default function AboutPage() {
           <GetInvolvedCard
             title="Donate"
             desc="Support the programme financially. Every franc is reinvested."
-            href={STRIPE_DONATE}
+            href={STRIPE_SUPPORT_5}
             cta="Donate now"
             external
           />
           <GetInvolvedCard
             title="Contribute code"
-            desc="LémanLoop is open source. Open a PR, report a bug, suggest a feature."
-            href="https://github.com/lemanloop"
+            desc="LémanLoop is open source. Fork, open a PR, report a bug, or suggest a feature."
+            href={GITHUB_REPO}
             cta="View on GitHub"
             external
           />
