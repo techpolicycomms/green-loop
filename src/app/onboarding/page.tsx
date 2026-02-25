@@ -123,7 +123,7 @@ export default function OnboardingPage() {
             <>
               <h2 style={{ margin: "0 0 8px", fontSize: "1.25rem", fontWeight: 700 }}>What brings you to LémanLoop?</h2>
               <p style={{ margin: "0 0 28px", fontSize: 14, color: "var(--color-text-muted)" }}>
-                Choose the role that best describes how you'll participate. Your dashboard and communications will be tailored to you.
+                Choose the role that best describes how you&apos;ll participate. Your dashboard and communications will be tailored to you.
               </p>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }}>
                 <RoleCard
@@ -281,13 +281,18 @@ function RoleCard({ role, selected, onSelect, emoji, title, desc, color }: {
     <button
       onClick={onSelect}
       style={{
-        textAlign: "left", padding: "20px 16px", borderRadius: "var(--radius-sm)", cursor: "pointer",
+        textAlign: "left", padding: "20px 16px", borderRadius: "var(--radius-md)", cursor: "pointer",
         border: `2px solid ${selected ? color.border : "var(--color-border)"}`,
         background: selected ? color.bg : "var(--color-surface)",
-        transition: "all var(--transition)", width: "100%"
+        transition: "all var(--transition)", width: "100%",
+        boxShadow: selected ? `0 0 0 3px ${color.border}25` : "none",
+        transform: selected ? "scale(1.02)" : "scale(1)"
       }}
     >
-      <div style={{ fontSize: 28, marginBottom: 10 }}>{emoji}</div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
+        <span style={{ fontSize: 28 }}>{emoji}</span>
+        {selected && <span style={{ fontSize: 18, color: color.border }}>&#10003;</span>}
+      </div>
       <div style={{ fontWeight: 700, fontSize: 15, color: selected ? color.text : "var(--color-text)", marginBottom: 6 }}>{title}</div>
       <div style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.5 }}>{desc}</div>
     </button>

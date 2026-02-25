@@ -121,6 +121,9 @@ export default function Nav() {
               </>
             )
           }
+          <Link href="/about" className={`nav-link hide-sm${pathname === "/about" ? " nav-link-active" : ""}`}>
+            About
+          </Link>
         </div>
 
         {/* User area */}
@@ -207,6 +210,9 @@ export default function Nav() {
             ))}
             <Link href="/profile" className={`nav-link${pathname === "/profile" ? " nav-link-active" : ""}`} onClick={() => setMenuOpen(false)}>
               Profile
+            </Link>
+            <Link href="/about" className={`nav-link${pathname === "/about" ? " nav-link-active" : ""}`} onClick={() => setMenuOpen(false)}>
+              About
             </Link>
             <div style={{ borderTop: "1px solid var(--color-border)", marginTop: 8, paddingTop: 8 }}>
               <form action="/auth/signout" method="post">

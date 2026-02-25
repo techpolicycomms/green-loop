@@ -49,15 +49,13 @@ export async function POST(req: Request) {
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
   const supabase = await createServerClient();
-  const { data: userData } = await supabase.auth.getUser();
-  const userId = userData.user?.id;
 
   const { data, error } = await supabase.from("events").insert({
     name: parsed.data.name,
     location: parsed.data.location,
     expected_lanyards: parsed.data.expected_lanyards ?? null,
     event_date: parsed.data.event_date ?? null,
-    created_by: userId
+    created_by: user.id
   }).select("*").single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
