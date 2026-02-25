@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createServerClient } from "@/lib/supabaseServer";
 import { requireUser } from "@/lib/authz";
 import { sendCheckInConfirmed } from "@/lib/mailer";
+import { rateLimit } from "@/lib/rateLimit";
 
 const CheckInSchema = z.object({
   lat: z.number().min(-90).max(90),
@@ -12,6 +13,10 @@ const CheckInSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for") ?? "local";
+  const rl = rateLimit(`checkin:${ip}`, 10, 60_000);
+  if (!rl.ok) return NextResponse.json({ error: "Rate limit" }, { status: 429 });
+
   try {
     const user = await requireUser();
     const body = await req.json();

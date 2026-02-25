@@ -3,6 +3,11 @@
  * Call template(vars) to get a { subject, html } object.
  */
 
+function esc(s: string | undefined | null): string {
+  if (!s) return "";
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
 const BRAND = {
   primary: "#15803d",
   primaryDark: "#166534",
@@ -96,7 +101,7 @@ export type Template = { subject: string; html: string };
 // ── Welcome Volunteer ─────────────────────────────────────────────────────
 
 export function welcomeVolunteer(v: NotificationVars): Template {
-  const name = v.display_name || v.email?.split("@")[0] || "there";
+  const name = esc(v.display_name || v.email?.split("@")[0] || "there");
   return {
     subject: "Welcome to LémanLoop — your volunteer dashboard is ready 🌿",
     html: wrap(`
@@ -126,7 +131,7 @@ export function welcomeVolunteer(v: NotificationVars): Template {
 // ── Welcome Organizer ─────────────────────────────────────────────────────
 
 export function welcomeOrganizer(v: NotificationVars): Template {
-  const name = v.display_name || v.email?.split("@")[0] || "there";
+  const name = esc(v.display_name || v.email?.split("@")[0] || "there");
   return {
     subject: "Welcome to LémanLoop — register your first event 🗂️",
     html: wrap(`
@@ -152,7 +157,7 @@ export function welcomeOrganizer(v: NotificationVars): Template {
 // ── Event Registered ──────────────────────────────────────────────────────
 
 export function eventCreated(v: NotificationVars): Template {
-  const name = v.display_name || v.email?.split("@")[0] || "there";
+  const name = esc(v.display_name || v.email?.split("@")[0] || "there");
   const lanyards = v.expected_lanyards ?? 0;
   const deposit = v.deposit_total ?? lanyards * 2;
   const co2 = ((lanyards * 25) / 1000).toFixed(1);
@@ -162,8 +167,8 @@ export function eventCreated(v: NotificationVars): Template {
       ${heading("Event registered ✓")}
       ${para(`Hi ${name}, your event has been registered on LémanLoop.`)}
       <table width="100%" cellpadding="0" cellspacing="0" style="background:#f9fafb;border-radius:8px;padding:20px;margin:16px 0;border:1px solid ${BRAND.border};">
-        <tr><td style="font-size:14px;color:${BRAND.muted};padding-bottom:6px;">Event</td><td style="font-weight:600;">${v.event_name || "—"}</td></tr>
-        <tr><td style="font-size:14px;color:${BRAND.muted};padding-bottom:6px;">Venue</td><td>${v.event_location || "—"}</td></tr>
+        <tr><td style="font-size:14px;color:${BRAND.muted};padding-bottom:6px;">Event</td><td style="font-weight:600;">${esc(v.event_name) || "—"}</td></tr>
+        <tr><td style="font-size:14px;color:${BRAND.muted};padding-bottom:6px;">Venue</td><td>${esc(v.event_location) || "—"}</td></tr>
         <tr><td style="font-size:14px;color:${BRAND.muted};padding-bottom:6px;">Expected lanyards</td><td>${lanyards}</td></tr>
         <tr><td style="font-size:14px;color:${BRAND.muted};padding-bottom:6px;">Refundable deposit</td><td><strong>CHF ${deposit}</strong></td></tr>
         <tr><td style="font-size:14px;color:${BRAND.muted};">Estimated CO₂ diverted</td><td><strong>≈ ${co2} kg</strong></td></tr>
@@ -178,13 +183,13 @@ export function eventCreated(v: NotificationVars): Template {
 // ── Check-in Confirmed ────────────────────────────────────────────────────
 
 export function checkInConfirmed(v: NotificationVars): Template {
-  const name = v.display_name || v.email?.split("@")[0] || "there";
+  const name = esc(v.display_name || v.email?.split("@")[0] || "there");
   return {
     subject: "Check-in confirmed — thanks for collecting! 🌿",
     html: wrap(`
       ${heading("Check-in confirmed ✓")}
       ${para(`Great work, ${name}! Your GPS check-in has been recorded.`)}
-      ${v.event_name ? para(`<strong>Event:</strong> ${v.event_name}`) : ""}
+      ${v.event_name ? para(`<strong>Event:</strong> ${esc(v.event_name)}`) : ""}
       ${v.lat && v.lng ? para(`<strong>Location:</strong> ${v.lat.toFixed(5)}, ${v.lng.toFixed(5)}`) : ""}
       <br/>
       ${para("<strong>Don't forget to complete your collection:</strong>")}
@@ -223,7 +228,7 @@ const ROLE_LABELS: Record<string, { label: string; desc: string; bg: string; col
 };
 
 export function roleChanged(v: NotificationVars): Template {
-  const name = v.display_name || v.email?.split("@")[0] || "there";
+  const name = esc(v.display_name || v.email?.split("@")[0] || "there");
   const newRole = v.new_role ?? "volunteer";
   const info = ROLE_LABELS[newRole] ?? ROLE_LABELS.volunteer;
   const dashPaths: Record<string, string> = { admin: "/admin", organizer: "/organizer", volunteer: "/volunteer" };
@@ -245,15 +250,15 @@ export function roleChanged(v: NotificationVars): Template {
 // ── Event Reminder ────────────────────────────────────────────────────────
 
 export function eventReminder(v: NotificationVars): Template {
-  const name = v.display_name || v.email?.split("@")[0] || "there";
+  const name = esc(v.display_name || v.email?.split("@")[0] || "there");
   return {
     subject: `Reminder: ${v.event_name || "your event"} is coming up — LémanLoop`,
     html: wrap(`
       ${heading("Event reminder 📅")}
       ${para(`Hi ${name}, a reminder about your upcoming event on LémanLoop.`)}
-      ${v.event_name ? `<div style="font-size:20px;font-weight:700;color:${BRAND.primary};margin:16px 0;">${v.event_name}</div>` : ""}
-      ${v.event_location ? para(`<strong>Venue:</strong> ${v.event_location}`) : ""}
-      ${v.reminder_message ? `<div style="background:#f9fafb;border-left:3px solid ${BRAND.primary};padding:16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;">${v.reminder_message}</div>` : ""}
+      ${v.event_name ? `<div style="font-size:20px;font-weight:700;color:${BRAND.primary};margin:16px 0;">${esc(v.event_name)}</div>` : ""}
+      ${v.event_location ? para(`<strong>Venue:</strong> ${esc(v.event_location)}`) : ""}
+      ${v.reminder_message ? `<div style="background:#f9fafb;border-left:3px solid ${BRAND.primary};padding:16px;border-radius:0 8px 8px 0;margin:16px 0;font-size:14px;">${esc(v.reminder_message)}</div>` : ""}
       ${para("Make sure volunteers know your collection points before the event.")}
       ${btn("View event details", `${BRAND.url}/organizer`)}
     `)
@@ -263,7 +268,7 @@ export function eventReminder(v: NotificationVars): Template {
 // ── Deposit Reminder ──────────────────────────────────────────────────────
 
 export function depositReminder(v: NotificationVars): Template {
-  const name = v.display_name || v.email?.split("@")[0] || "there";
+  const name = esc(v.display_name || v.email?.split("@")[0] || "there");
   const lanyards = v.expected_lanyards ?? 0;
   const deposit = v.deposit_total ?? lanyards * 2;
   return {
@@ -271,7 +276,7 @@ export function depositReminder(v: NotificationVars): Template {
     html: wrap(`
       ${heading("Deposit reminder 💳")}
       ${para(`Hi ${name}, your event deposit is still pending.`)}
-      ${v.event_name ? para(`<strong>Event:</strong> ${v.event_name}`) : ""}
+      ${v.event_name ? para(`<strong>Event:</strong> ${esc(v.event_name)}`) : ""}
       ${lanyards ? para(`<strong>Deposit due:</strong> CHF ${deposit} (CHF 2 × ${lanyards} lanyards)`) : ""}
       ${para("Volunteers won't be activated until your deposit is confirmed. Pay now to ensure maximum lanyard collection at your event.")}
       ${para("The deposit is <strong>fully refundable</strong> for Grade A/B lanyards returned to the circular library.")}

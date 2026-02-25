@@ -29,7 +29,7 @@ export async function sendEmail(
   const apiKey = process.env.RESEND_API_KEY;
 
   if (!apiKey) {
-    console.info(`[mailer] RESEND_API_KEY not set — skipping email to ${to} (${subject})`);
+    console.info(`[mailer] RESEND_API_KEY not set — skipping email (${subject})`);
     return { ok: false, error: "no_api_key" };
   }
 
@@ -45,7 +45,7 @@ export async function sendEmail(
 
     if (!res.ok) {
       const err = await res.text();
-      console.error(`[mailer] send failed to ${to}:`, err);
+      console.error("[mailer] send failed:", err);
       return { ok: false, error: err };
     }
 
@@ -53,7 +53,7 @@ export async function sendEmail(
     return { ok: true, id: (json as { id?: string }).id };
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    console.error(`[mailer] network error sending to ${to}:`, msg);
+    console.error("[mailer] network error:", msg);
     return { ok: false, error: msg };
   }
 }

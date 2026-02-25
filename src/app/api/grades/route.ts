@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createServerClient } from "@/lib/supabaseServer";
 import { requireUser } from "@/lib/authz";
+import { rateLimit } from "@/lib/rateLimit";
 
 const GradeSchema = z.object({
   grade: z.enum(["A", "B", "C"]),
@@ -13,6 +14,10 @@ const GradeSchema = z.object({
 
 // POST /api/grades — record lanyard grades without a photo (JSON body)
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for") ?? "local";
+  const rl = rateLimit(`grades:${ip}`, 30, 60_000);
+  if (!rl.ok) return NextResponse.json({ error: "Rate limit" }, { status: 429 });
+
   let user;
   try {
     user = await requireUser();

@@ -3,6 +3,7 @@ import { createServerClient } from "@/lib/supabaseServer";
 import { requireUser } from "@/lib/authz";
 import { z } from "zod";
 import { sendWelcomeVolunteer, sendWelcomeOrganizer } from "@/lib/mailer";
+import { rateLimit } from "@/lib/rateLimit";
 
 const ProfileSchema = z.object({
   role: z.enum(["volunteer", "organizer"]).optional(), // users can't self-assign admin
@@ -39,6 +40,10 @@ export async function GET() {
 }
 
 export async function PATCH(request: Request) {
+  const ip = request.headers.get("x-forwarded-for") ?? "local";
+  const rl = rateLimit(`profile:${ip}`, 15, 60_000);
+  if (!rl.ok) return NextResponse.json({ error: "Rate limit" }, { status: 429 });
+
   let user;
   try { user = await requireUser(); } catch {
     return NextResponse.json({ error: "UNAUTHENTICATED" }, { status: 401 });

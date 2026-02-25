@@ -96,7 +96,7 @@ export default function Nav() {
 
         {/* Nav links (desktop) */}
         <div style={{ display: "flex", alignItems: "center", gap: 2, flex: 1, marginLeft: 4, overflow: "hidden" }}>
-          <Link href="/" className={`nav-link${pathname === "/" ? " nav-link-active" : ""}`}>
+          <Link href="/" className={`nav-link${pathname === "/" ? " nav-link-active" : ""}`} aria-current={pathname === "/" ? "page" : undefined}>
             Home
           </Link>
 

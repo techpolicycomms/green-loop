@@ -1,12 +1,17 @@
 import { NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabaseServer";
 import { requireUser } from "@/lib/authz";
+import { rateLimit } from "@/lib/rateLimit";
 
 const BUCKET = "photos";
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_GRADES = ["A", "B", "C"];
 
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for") ?? "local";
+  const rl = rateLimit(`upload:${ip}`, 10, 60_000);
+  if (!rl.ok) return NextResponse.json({ error: "Rate limit" }, { status: 429 });
+
   try {
     const user = await requireUser();
     const form = await req.formData();

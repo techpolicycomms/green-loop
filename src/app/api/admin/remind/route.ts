@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { requireRole } from "@/lib/authz";
 import { createServerClient } from "@/lib/supabaseServer";
 import { z } from "zod";
+import { rateLimit } from "@/lib/rateLimit";
 import {
   sendEventReminder,
   sendDepositReminder,
@@ -17,6 +18,10 @@ const RemindSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  const ip = req.headers.get("x-forwarded-for") ?? "local";
+  const rl = rateLimit(`admin-remind:${ip}`, 10, 60_000);
+  if (!rl.ok) return NextResponse.json({ error: "Rate limit" }, { status: 429 });
+
   try {
     await requireRole(["admin"]);
   } catch (e) {

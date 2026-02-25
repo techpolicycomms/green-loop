@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import SkipLink from "@/components/SkipLink";
 import Script from "next/script";
 
 export const metadata: Metadata = {
@@ -34,8 +35,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             `}</Script>
           </>
         )}
+        <SkipLink />
         <Nav />
-        <div style={{ maxWidth: 960, margin: "0 auto", padding: "24px 20px 48px" }}>
+        <div id="main-content" role="main" style={{ maxWidth: 960, margin: "0 auto", padding: "24px 20px 48px" }}>
           {children}
         </div>
         <Footer />
