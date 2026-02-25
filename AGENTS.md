@@ -36,7 +36,7 @@ There are no automated test suites in this codebase. Manual testing is done via 
 | `SUPABASE_SERVICE_ROLE_KEY` | Admin API access — use for creating/confirming test users, bypassing RLS |
 | `RESEND_API_KEY` | Email sending (optional, graceful degradation) |
 | `TEST_GOOGLE_EMAIL` | Google account for OAuth login testing |
-| `TEST_GOOGLE_PASSWORD` | Password for test Google account (may need updating if expired) |
+| `TEST_GOOGLE_PASSWORD` | Password for test Google account — **currently outdated** (Google says "changed 7 months ago"). The account also has passkey/2FA enabled which blocks automated browser login. Update the secret with the current password to enable browser-based OAuth testing. |
 
 ### Creating test users without Google OAuth
 
