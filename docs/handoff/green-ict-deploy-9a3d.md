@@ -22,8 +22,8 @@
 
 | Environment | URL | Status |
 |---|---|---|
-| **Preview (this PR)** | https://green-loop-bokblpq7q-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected — HTTP 401 without auth) |
-| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop | Ready |
+| **Preview (PR #20)** | https://green-loop-9oc9o446a-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected — HTTP 401 without auth) |
+| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop/3DFuiqB1LDgm78cvcqrjoGWLG2Rq | Ready |
 | **Production** | https://www.green-loop-id.com | Live — `/transparency` returns 404 until merge + migration |
 | **User live URL** | https://idea-one-pi.vercel.app | 404 — not this project |
 
