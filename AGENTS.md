@@ -65,6 +65,7 @@ Smoke test verifies link reachability only; no card charge is made.
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL (required) |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase public anon key (required) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Admin API access — use for creating/confirming test users, bypassing RLS |
+| `GREEN_AUDIT_CRON_SECRET` | Bearer token for `/api/cron/green-ict-audit` (falls back to `CRON_SECRET`) |
 | `RESEND_API_KEY` | Email sending (optional, graceful degradation) |
 | `TEST_GOOGLE_EMAIL` | Google account for OAuth login testing |
 | `TEST_GOOGLE_PASSWORD` | Password for test Google account — **currently outdated** (Google says "changed 7 months ago"). The account also has passkey/2FA enabled which blocks automated browser login. Update the secret with the current password to enable browser-based OAuth testing. |
