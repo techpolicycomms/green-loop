@@ -2,7 +2,7 @@
 
 **agent_id:** deploy-commander-584c  
 **date:** 2026-05-24  
-**branch:** `cursor/green-ict-deploy-584c` (PR #9 → `main`, base `sprint/green-ict-audit`)
+**branch:** `cursor/green-ict-deploy-584c` (PR #14 → `main`)
 
 ## Done
 
@@ -22,8 +22,8 @@
 
 | Environment | URL | Status |
 |---|---|---|
-| **Preview (PR #9)** | https://green-loop-git-sprint-green-ict-audit-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected — HTTP 401 without auth) |
-| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop/B11J728n3qVP3Ep7t4CPvowmvt8o | Ready |
+| **Preview (PR #14)** | https://green-loop-git-cursor-green-ict-2a24af-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected — HTTP 401 without auth) |
+| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop/7PRMZWDBoZj2NuBGyV29DjBNnRoM | Ready |
 | **Production** | https://www.green-loop-id.com | Live — `/transparency` returns 404 until merge + migration |
 | **User live URL** | https://idea-one-pi.vercel.app | DEPLOYMENT_NOT_FOUND — not linked to this project |
 
@@ -38,6 +38,6 @@
 
 1. Apply migration `017_green_ict_audit.sql` in Supabase production.
 2. Set `GREEN_AUDIT_CRON_SECRET` + confirm `SUPABASE_SERVICE_ROLE_KEY` on Vercel.
-3. Merge PR #9 to `main` and promote to production.
+3. Merge PR #14 to `main` and promote to production.
 4. Run manual cron: `GET /api/cron/green-ict-audit?month=2026-04` with Bearer token.
 5. Verify `/transparency` shows first monthly report on production.
