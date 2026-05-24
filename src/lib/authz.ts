@@ -4,9 +4,10 @@ export type Role = "volunteer" | "organizer" | "admin";
 
 export async function requireUser() {
   const supabase = await createServerClient();
-  const { data } = await supabase.auth.getUser();
-  if (!data.user) throw new Error("UNAUTHENTICATED");
-  return data.user;
+  // Use getSession() for reliable cookie-based auth in API routes (Next.js App Router)
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session?.user) throw new Error("UNAUTHENTICATED");
+  return session.user;
 }
 
 export async function requireRole(allowed: Role[]) {
