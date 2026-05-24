@@ -22,9 +22,8 @@
 
 | Environment | URL | Status |
 |---|---|---|
-| **Preview (this PR)** | https://green-loop-git-cursor-green-ict-deploy-632e-rahuls-projects-26acb4ad.vercel.app | Pending Vercel build |
-| **Preview (PR #9 sprint branch)** | https://green-loop-git-sprint-green-ict-audit-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected — HTTP 401 without auth) |
-| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop | — |
+| **Preview (PR #11)** | https://green-loop-git-cursor-green-ict-70a09a-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected — HTTP 401 without auth) |
+| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop/5YJPoaSzpNLo98TjLNj2sojcYfF3 | Ready |
 | **Production** | https://www.green-loop-id.com | Live — `/transparency` returns 404 until merge + migration |
 | **User live URL** | https://idea-one-pi.vercel.app | 404 — not this project |
 
