@@ -26,14 +26,16 @@
 | **Production** | https://www.green-loop-id.com | Live — `/transparency` returns 200, Green ICT Audit page |
 | **Production transparency** | https://www.green-loop-id.com/transparency | Verified 2026-05-24 |
 | **Production about (Stripe)** | https://www.green-loop-id.com/about | Stripe Payment Links present + reachable |
-| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop | Active |
+| **Preview (PR #30)** | https://green-loop-pzbicvoa2-rahuls-projects-26acb4ad.vercel.app | Deployed — HTTP 401 (Vercel SSO protected) |
+| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop/DryYwfKRo5b1M2YBbyBitCxqFJrc | Ready |
 | **User live URL** | https://idea-one-pi.vercel.app | 404 — not linked to this project |
 
 ## Blocked
 
 1. **Supabase migration may not be applied** — apply `017_green_ict_audit.sql` before cron persists reports and `/transparency` shows monthly data rows.
-2. **Green ICT cron smoke skipped** — `GREEN_AUDIT_CRON_SECRET` not set in VM `.env.local`; set on Vercel to enable cron smoke + monthly automation.
-3. **idea-one-pi.vercel.app** — deployment not found; production is `www.green-loop-id.com`.
+2. **Preview behind Vercel SSO** — PR #30 preview returns HTTP 401 without auth; use production URL for automated smoke.
+3. **Green ICT cron smoke skipped** — `GREEN_AUDIT_CRON_SECRET` not set in VM `.env.local`; set on Vercel to enable cron smoke + monthly automation.
+4. **idea-one-pi.vercel.app** — deployment not found; production is `www.green-loop-id.com`.
 
 ## Next agent task
 
