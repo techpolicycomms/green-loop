@@ -27,7 +27,8 @@
 | **Transparency** | https://www.green-loop-id.com/transparency | Live (200) — awaiting first cron report |
 | **About (Stripe CTAs)** | https://www.green-loop-id.com/about#donate | Live (200) |
 | **Admin emissions** | https://www.green-loop-id.com/admin/emissions | Live (200) |
-| **Preview (PR)** | _See PR body after Vercel deploy_ | Vercel SSO may apply |
+| **Preview (PR #25)** | https://green-loop-git-cursor-green-ict-180413-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO may apply) |
+| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop/AVHkKyAYhaiLzoeE5EbD499u8pW8 | Ready |
 | **User live URL** | https://idea-one-pi.vercel.app | DEPLOYMENT_NOT_FOUND — not linked to this project |
 
 ## Blocked
