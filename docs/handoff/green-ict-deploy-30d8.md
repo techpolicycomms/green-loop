@@ -26,7 +26,7 @@
 | **Transparency** | https://www.green-loop-id.com/transparency | Live (200) |
 | **About (Stripe CTAs)** | https://www.green-loop-id.com/about#donate | Live |
 | **Admin emissions** | https://www.green-loop-id.com/admin/emissions | Live |
-| **Preview (this PR)** | _see PR body after Vercel deploy_ | Vercel SSO protected |
+| **Preview (PR #26)** | https://green-loop-gskwc7v8x-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected) |
 | **User live URL** | https://idea-one-pi.vercel.app | DEPLOYMENT_NOT_FOUND — not linked to this project |
 
 ## Blocked
