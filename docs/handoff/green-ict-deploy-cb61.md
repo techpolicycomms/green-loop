@@ -27,7 +27,7 @@
 | **About (Stripe)** | https://www.green-loop-id.com/about#donate | Verified — Payment Links present |
 | **Admin emissions** | https://www.green-loop-id.com/admin/emissions | Verified — smoke pass |
 | **User live URL** | https://idea-one-pi.vercel.app | DEPLOYMENT_NOT_FOUND (404) — not linked to this Vercel project |
-| **Preview (this PR)** | _See Vercel bot comment on PR_ | Auto-deploy on push |
+| **Preview (PR #23)** | https://green-loop-git-cursor-green-ict-540fde-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected — HTTP 401 without auth) |
 
 ## Blocked
 
