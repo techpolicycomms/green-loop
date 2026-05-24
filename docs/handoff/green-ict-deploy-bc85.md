@@ -2,7 +2,7 @@
 
 **agent_id:** deploy-commander-bc85  
 **date:** 2026-05-24  
-**branch:** `cursor/green-ict-deploy-bc85` → `main`
+**branch:** `cursor/green-ict-deploy-bc85` (PR #18 → `main`)
 
 ## Done
 
@@ -22,8 +22,8 @@
 
 | Environment | URL | Status |
 |---|---|---|
-| **Preview (this PR)** | _See Vercel bot comment on PR_ | Pending push |
-| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop | Active |
+| **Preview (PR #18)** | https://green-loop-git-cursor-green-ict-70cb55-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected — HTTP 401 without auth) |
+| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop/HK5DnRkyTjNheZSsnkodM7yNUWYW | Ready |
 | **Production** | https://www.green-loop-id.com | Live — `/transparency` 404 until merge + migration |
 | **User live URL** | https://idea-one-pi.vercel.app | DEPLOYMENT_NOT_FOUND — not linked to this project |
 
