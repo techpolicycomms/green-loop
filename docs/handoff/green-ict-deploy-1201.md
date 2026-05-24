@@ -22,7 +22,7 @@
 
 | Environment | URL | Status |
 |---|---|---|
-| **Preview (this PR)** | https://green-loop-git-cursor-green-ict-deploy-1201-rahuls-projects-26acb4ad.vercel.app | Pending Vercel build |
+| **Preview (PR #12)** | https://green-loop-git-cursor-green-ict-b46aa7-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO — HTTP 401 without auth) |
 | **Preview (PR #9)** | https://green-loop-git-sprint-green-ict-audit-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO — HTTP 401 without auth) |
 | **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop | Ready |
 | **Production** | https://www.green-loop-id.com | Live — `/transparency` returns 404 until merge + migration |
