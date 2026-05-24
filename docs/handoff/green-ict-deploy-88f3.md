@@ -26,6 +26,8 @@
 | **Production** | https://www.green-loop-id.com | Live — `/transparency` 200, Stripe links on `/about` verified |
 | **Production transparency** | https://www.green-loop-id.com/transparency | Live — Green ICT Audit page renders |
 | **Production about/donate** | https://www.green-loop-id.com/about | Live — Stripe Payment Links present |
+| **Preview (PR #29)** | https://green-loop-git-cursor-green-ict-fe6832-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected — HTTP 401 without auth) |
+| **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop/9FG9pAHCvA4fAbdayzohmLJ6Bs9z | Ready |
 | **User live URL** | https://idea-one-pi.vercel.app | DEPLOYMENT_NOT_FOUND — not linked to green-loop project |
 
 ## Blocked
