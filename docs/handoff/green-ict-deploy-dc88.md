@@ -2,7 +2,7 @@
 
 **agent_id:** deploy-commander-dc88  
 **date:** 2026-05-24  
-**branch:** `cursor/green-ict-reporting-dc88` → `main`
+**branch:** `cursor/green-ict-reporting-dc88` (PR #10 → `main`)
 
 ## Done
 
@@ -22,7 +22,7 @@
 
 | Environment | URL | Status |
 |---|---|---|
-| **Preview (this PR)** | https://green-loop-git-cursor-green-ict-reporting-dc88-rahuls-projects-26acb4ad.vercel.app | Pending Vercel build |
+| **Preview (PR #10)** | https://green-loop-git-cursor-green-ict-247ae0-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO — HTTP 401 without auth) |
 | **Preview (PR #9)** | https://green-loop-git-sprint-green-ict-audit-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO — HTTP 401 without auth) |
 | **Vercel dashboard** | https://vercel.com/rahuls-projects-26acb4ad/green-loop | — |
 | **Production** | https://www.green-loop-id.com | Live — `/transparency` returns 404 until merge + migration |
