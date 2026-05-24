@@ -259,7 +259,7 @@ Verified via `GET /auth/v1/settings`:
 
 ### 4.3 RLS Policy Coverage — VERIFIED
 
-All 7 data tables have Row Level Security enabled and respond correctly to service role and user-scoped queries:
+All 10 data tables have Row Level Security enabled and respond correctly to service role and user-scoped queries:
 
 | Table | RLS | Notes |
 |---|---|---|
@@ -270,10 +270,39 @@ All 7 data tables have Row Level Security enabled and respond correctly to servi
 | `lanyard_grades` | ✅ | Users insert/read own; organiser/admin read all |
 | `event_applications` | ✅ | Volunteers manage own; organisers manage event apps |
 | `notifications` | ✅ | Admin read all; users read own |
+| `emission_activity_logs` | ✅ | Admin read/write; used by monthly Green ICT cron |
+| `emission_offsets` | ✅ | Admin read/write; retired offsets deducted in reports |
+| `emission_reports_monthly` | ✅ | Admin read/write; public read when `published = true` |
 
 ---
 
-## 5. Compliance Matrix
+## 5. Green ICT Reporting (Scope 1 + Scope 2)
+
+**Added:** May 2026 — Sprint `green-ict-audit` (issues #6, #7)
+
+### 5.1 ISO 27001 — A.12.4.1 Event Logging & A.18.1.4 Privacy
+
+Monthly emissions archives are stored with SHA-256 checksums in `emission_reports_monthly.archive_sha256`. Public disclosure is limited to aggregated kgCO2e totals on `/transparency`; raw activity logs and offset provider details remain admin-only via RLS.
+
+**Status:** ✅ VERIFIED — Migration `017_green_ict_audit.sql`, RLS policies on all three emissions tables
+
+### 5.2 ISO 27001 — A.9.2.3 Access Rights
+
+- Cron route `/api/cron/green-ict-audit` requires `Authorization: Bearer $GREEN_AUDIT_CRON_SECRET` (falls back to `CRON_SECRET`)
+- Admin emissions APIs require authenticated admin role
+- Public transparency page reads only published monthly reports
+
+**Status:** ✅ VERIFIED
+
+### 5.3 WCAG 3.0 — Transparency Page
+
+The `/transparency` page uses semantic headings, responsive table with horizontal scroll, and design-system colour tokens that meet contrast requirements in light and dark mode.
+
+**Status:** ✅ VERIFIED — Build output includes `/transparency` route
+
+---
+
+## 6. Compliance Matrix
 
 ### ISO 27001:2022 Annex A — Applicable Controls
 

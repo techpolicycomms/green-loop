@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { IconCalendar, IconMapPin } from "@/components/Icons";
+import { formatDate, formatEventDate } from "@/lib/formatDate";
 
 type Event = {
   id: string;
@@ -198,17 +199,6 @@ export default function OrganizerPage() {
   };
 
   useEffect(() => void load(), []);
-
-  const formatDate = (d: string) => {
-    try { return new Date(d).toLocaleDateString(undefined, { dateStyle: "medium" }); }
-    catch { return d; }
-  };
-
-  const formatEventDate = (d: string | null | undefined) => {
-    if (!d) return null;
-    try { return new Date(d + "T00:00:00").toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" }); }
-    catch { return d; }
-  };
 
   const selectedEvent = events.find((e) => e.id === selectedEventId);
   const pendingCount = applications.filter((a) => a.status === "pending").length;

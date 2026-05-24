@@ -23,9 +23,40 @@ npm run dev    # starts Next.js dev server on port 3000
 ```bash
 npm run lint   # ESLint via next lint (requires .eslintrc.json)
 npm run build  # production build — also runs lint + type-check
+npm run smoke  # Green ICT + Stripe donation smoke tests (requires dev server or BASE_URL)
 ```
 
-There are no automated test suites in this codebase. Manual testing is done via the browser.
+There are no automated unit/integration test suites. Manual testing is done via the browser and `npm run smoke`.
+
+### Smoke tests
+
+```bash
+npm run dev    # terminal 1
+npm run smoke  # defaults to http://127.0.0.1:3000; override with BASE_URL
+```
+
+Smoke checks:
+- `/transparency` renders Green ICT audit page
+- `/about` includes Stripe Payment Link URLs
+- Stripe Payment Links return HTTP 200/302/303 (test mode checkout)
+- Optional: `GREEN_AUDIT_CRON_SECRET=... npm run smoke` also invokes `/api/cron/green-ict-audit`
+
+### Green ICT reporting
+
+- **Public transparency:** `/transparency` — published monthly Scope 1/2 reports
+- **Admin manager:** `/admin/emissions` — measured activity logs, offsets, manual audit trigger
+- **Monthly cron:** `GET /api/cron/green-ict-audit` (Vercel cron: `15 3 1 * *`)
+- **Migration:** `supabase/migrations/017_green_ict_audit.sql`
+- **Docs:** `docs/GREEN_ICT_AUDIT.md`
+- **Env vars:** `GREEN_AUDIT_CRON_SECRET` (or `CRON_SECRET`), `SUPABASE_SERVICE_ROLE_KEY`
+
+### Stripe donations
+
+Donation CTAs on `/about` use Stripe Payment Links (no server-side Stripe SDK):
+- Support CHF 5: `https://buy.stripe.com/fZu8wP2qO7bd0yR6uA6sw00`
+- Board member CHF 1000: `https://buy.stripe.com/5kQ6oH8Pc7bddlD7yE6sw01`
+
+Smoke test verifies link reachability only; no card charge is made.
 
 ### Secrets available
 
@@ -34,6 +65,7 @@ There are no automated test suites in this codebase. Manual testing is done via 
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL (required) |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase public anon key (required) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Admin API access — use for creating/confirming test users, bypassing RLS |
+| `GREEN_AUDIT_CRON_SECRET` | Bearer token for `/api/cron/green-ict-audit` (falls back to `CRON_SECRET`) |
 | `RESEND_API_KEY` | Email sending (optional, graceful degradation) |
 | `TEST_GOOGLE_EMAIL` | Google account for OAuth login testing |
 | `TEST_GOOGLE_PASSWORD` | Password for test Google account — **currently outdated** (Google says "changed 7 months ago"). The account also has passkey/2FA enabled which blocks automated browser login. Update the secret with the current password to enable browser-based OAuth testing. |
