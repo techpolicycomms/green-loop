@@ -2,7 +2,7 @@
 
 **agent_id:** deploy-commander-ad65  
 **date:** 2026-05-24  
-**branch:** `cursor/green-ict-deploy-ad65` → `main`
+**branch:** `cursor/green-ict-deploy-ad65` (PR #19 → `main`)
 
 ## Done
 
@@ -22,7 +22,7 @@
 
 | Environment | URL | Status |
 |---|---|---|
-| **Preview (this PR)** | https://green-loop-git-cursor-green-ict-deploy-ad65-rahuls-projects-26acb4ad.vercel.app | Pending Vercel build after push |
+| **Preview (PR #19)** | https://green-loop-git-cursor-green-ict-8cd8ee-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO — HTTP 401 without auth) |
 | **Preview (PR #9 sprint)** | https://green-loop-git-sprint-green-ict-audit-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO — HTTP 401 without auth) |
 | **Production** | https://www.green-loop-id.com | Live — `/transparency` returns 404 until merge + migration |
 | **User live URL** | https://idea-one-pi.vercel.app | DEPLOYMENT_NOT_FOUND — not linked to this project |
