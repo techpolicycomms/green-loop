@@ -26,7 +26,7 @@
 | **Transparency** | https://www.green-loop-id.com/transparency | HTTP 200 — Green ICT Audit |
 | **About (Stripe CTAs)** | https://www.green-loop-id.com/about#donate | Payment Links present |
 | **Admin emissions** | https://www.green-loop-id.com/admin/emissions | HTTP 200 |
-| **Preview (this PR)** | _Vercel preview URL in PR checks_ | SSO protected |
+| **Preview (PR #27)** | https://green-loop-git-cursor-green-ict-b93664-rahuls-projects-26acb4ad.vercel.app | Ready (Vercel SSO protected) |
 | **User live URL** | https://idea-one-pi.vercel.app | DEPLOYMENT_NOT_FOUND — not linked to this project |
 
 ## Blocked
